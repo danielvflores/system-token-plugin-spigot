@@ -1,0 +1,15 @@
+name: PrisonEnchantCustom
+main: com.stp.core.PrisonEnchantCustom
+version: 1.0
+api-version: 1.20
+commands:
+  token:
+    description: Muestra "hola" en consola
+    usage: /token
+  givepickaxe:
+    description: Da una pickaxe especial.
+    usage: /givepickaxe
+  enchantsreload:
+    description: Recarga el archivo de configuración del plugin.
+    usage: /enchantsreload
+    permission: stp.reload
