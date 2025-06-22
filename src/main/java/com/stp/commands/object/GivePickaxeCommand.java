@@ -6,19 +6,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.stp.objects.Pickaxe;
+import com.stp.utils.MessageUtils;
 
 public class GivePickaxeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Este comando solo puede usarse en el juego.");
+            sender.sendMessage(MessageUtils.getMessage("pickaxe.only-player"));
             return true;
         }
 
         Player player = (Player) sender;
         player.getInventory().addItem(Pickaxe.create(player));
-        player.sendMessage("§aHas recibido el §bPico Supremo§a.");
+        player.sendMessage(MessageUtils.getMessage("pickaxe.received"));
         return true;
     }
 }

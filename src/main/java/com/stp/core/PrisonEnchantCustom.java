@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.stp.commands.EnchantReloadCommand;
 import com.stp.commands.TokenCommand;
 import com.stp.commands.object.GivePickaxeCommand;
+import com.stp.commands.utility.TokenTabCompleter;
 import com.stp.db.DatabaseManager;
 import com.stp.economy.TokenManager;
 import com.stp.enchants.CustomEnchant;
@@ -16,6 +17,8 @@ import com.stp.enchants.impl.Efficiency;
 import com.stp.enchants.impl.Explosive;
 import com.stp.enchants.impl.Fly;
 import com.stp.enchants.impl.Fortune;
+import com.stp.enchants.impl.GiveToken;
+import com.stp.enchants.impl.Nuke;
 import com.stp.enchants.impl.Speed;
 import com.stp.listeners.EnchantEffectTask;
 import com.stp.listeners.PickaxeListener;
@@ -43,6 +46,8 @@ public class PrisonEnchantCustom extends JavaPlugin {
             Efficiency.class,
             Fortune.class,
             Fly.class,
+            Nuke.class,
+            GiveToken.class 
         };
 
         for (Class<? extends CustomEnchant> enchantClass : enchantClasses) {
@@ -61,7 +66,9 @@ public class PrisonEnchantCustom extends JavaPlugin {
         new EnchantmentLoader(this).loadEnchantments();
         new EnchantEffectTask().runTaskTimer(this, 0, 20);
 
-        getCommand("token").setExecutor(new TokenCommand(tokenManager));
+        TokenCommand tokenCommand = new TokenCommand(tokenManager);
+        getCommand("token").setExecutor(tokenCommand);
+        getCommand("token").setTabCompleter(new TokenTabCompleter());
         getCommand("givepickaxe").setExecutor(new GivePickaxeCommand());
         getCommand("enchantsreload").setExecutor(new EnchantReloadCommand());
         getServer().getPluginManager().registerEvents(new PickaxeListener(), this);

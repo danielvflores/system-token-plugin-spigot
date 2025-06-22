@@ -76,17 +76,11 @@ public class Explosive implements CustomEnchant {
     public void handleBlockBreak(BlockBreakEvent event, Player player, int level) {
         if (!enabled) return;
 
-        if (!lastActivation) {
-            boolean activate = random.nextInt(3) == 0;
-            if (activate) {
-                destroyBlocks(player, event.getBlock(), level);
-            }
-            lastActivation = activate;
-        } else {
-            lastActivation = false;
+        double chance = PrisonEnchantCustom.getInstance().getConfig().getDouble("enchants.explosive.chance", 2.0);
+        if (random.nextDouble() < (chance / 100.0)) {
+            destroyBlocks(player, event.getBlock(), level);
         }
     }
-
     private void destroyBlocks(Player player, Block origin, int level) {
         List<Material> allowedBlocks = PrisonEnchantCustom.getInstance().getAllowedBlocks();
 

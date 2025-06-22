@@ -1,13 +1,17 @@
 package com.stp.commands.economy;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.stp.commands.SubCommand;
 import com.stp.economy.TokenManager;
+import com.stp.utils.MessageUtils;
 import com.stp.utils.NumberUtils;
+import com.stp.utils.PlaceholderUtil;
 
 public class TokenRemove implements SubCommand {
 
@@ -20,12 +24,12 @@ public class TokenRemove implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!sender.hasPermission("token.remove")) {
-            sender.sendMessage("§cNo tienes permiso para usar este comando.");
+            sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
             return true;
         }
 
         if (args.length < 3) {
-            sender.sendMessage("§cUso: /token remove <jugador> <cantidad>");
+            sender.sendMessage(MessageUtils.getMessage("token.remove-usage"));
             return true;
         }
 
@@ -33,7 +37,7 @@ public class TokenRemove implements SubCommand {
         Player target = sender.getServer().getPlayerExact(targetName);
 
         if (target == null) {
-            sender.sendMessage("§cJugador no encontrado.");
+            sender.sendMessage(MessageUtils.getMessage("token.player-not-found"));
             return true;
         }
 
@@ -41,17 +45,31 @@ public class TokenRemove implements SubCommand {
         try {
             amount = NumberUtils.parseAmountWithSuffix(args[2]);
         } catch (NumberFormatException e) {
-            sender.sendMessage("§cLa cantidad debe ser un número positivo válido (ej: 1500, 1.5K, 2M, 3B, 1.5Q).");
+            sender.sendMessage(MessageUtils.getMessage("token.invalid-amount"));
             return true;
         }
-
 
         tokenManager.removeTokens(target.getUniqueId(), amount);
 
         BigDecimal newBalance = tokenManager.getTokens(target.getUniqueId());
 
-        sender.sendMessage("§aSe removieron §e" + amount.toPlainString() + " §atokens de §e" + target.getName() + "§a.");
-        target.sendMessage("§aTu nuevo saldo de tokens es: §e" + newBalance.toPlainString());
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put("amount", amount.toPlainString());
+        placeholders.put("player", target.getName());
+
+        sender.sendMessage(PlaceholderUtil.applyPlaceholders(
+            sender instanceof Player ? (Player)sender : null,
+            MessageUtils.getMessage("token.remove-success"),
+            placeholders
+        ));
+
+        Map<String, String> placeholdersTarget = new HashMap<>();
+        placeholdersTarget.put("balance", newBalance.toPlainString());
+        target.sendMessage(PlaceholderUtil.applyPlaceholders(
+            target,
+            MessageUtils.getMessage("token.new-balance"),
+            placeholdersTarget
+        ));
         return true;
     }
 }

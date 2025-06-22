@@ -26,6 +26,8 @@ import com.stp.db.PickaxeStorage;
 import com.stp.enchants.CustomEnchant;
 import com.stp.enchants.impl.Explosive;
 import com.stp.enchants.impl.Fortune;
+import com.stp.enchants.impl.GiveToken;
+import com.stp.enchants.impl.Nuke;
 import com.stp.objects.Pickaxe;
 
 public class PickaxeListener implements Listener {
@@ -86,8 +88,6 @@ public class PickaxeListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
 
-        // if (Explosive.isExploding.get()) return; activar si no funciona el move to instanceof
-
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInHand();
 
@@ -114,8 +114,17 @@ public class PickaxeListener implements Listener {
                 ((Explosive) enchant).handleBlockBreak(event, player, level);
             }
 
+            if (enchant instanceof Nuke) {
+                if (Nuke.isNuking.get()) return;
+                ((Nuke) enchant).handleBlockBreak(event, player, level);
+            }
+
             if (enchant instanceof Fortune && fortuneBlocks.contains(blockType)) {
                 ((Fortune) enchant).applyEffect(player, level);
+            }
+
+            if (enchant instanceof GiveToken) {
+                ((GiveToken) enchant).handleBlockBreak(player, item);
             }
         }
     }

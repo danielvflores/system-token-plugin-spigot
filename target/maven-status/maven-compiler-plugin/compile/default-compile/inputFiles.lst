@@ -8,6 +8,7 @@ c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\commands\SubCommand.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\commands\test\TokenCheckConsole.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\commands\TokenCommand.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\commands\utility\TokenTabCompleter.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\core\EnchantmentLoader.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\core\EnchantmentManager.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\core\PrisonEnchantCustom.java
@@ -20,11 +21,14 @@ c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\enchants\impl\Explosive.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\enchants\impl\Fly.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\enchants\impl\Fortune.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\enchants\impl\GiveToken.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\enchants\impl\Nuke.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\enchants\impl\Speed.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\listeners\EnchantEffectTask.java
-c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\listeners\GenericEnchantListener.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\listeners\PickaxeListener.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\objects\Pickaxe.java
-c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\utils\AutoSellUtil.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\utils\MessageUtils.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\utils\MineRegion.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\utils\NumberUtils.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\utils\PlaceholderUtil.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\systemtokensprison (STP)\src\main\java\com\stp\utils\WorldGuardUtils.java

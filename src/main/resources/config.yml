@@ -14,22 +14,41 @@ enchants:
     display: "&7Speed"
     max-level: 2
     enabled: true
+    cost-per-level: 2000
   explosive:
     display: "&7Explosive"
     max-level: 50
     enabled: true
+    chance: 70
+    cost-per-level: 100000
   efficiency:
     display: "&7Efficiency"
     max-level: 100
     enabled: true
+    cost-per-level: 1000
   fortune:
     display: "&7Fortune"
     max-level: 20
     enabled: true
+    cost-per-level: 5000
   fly:
     display: "&7Fly"
     max-level: 1
     enabled: true
+    cost-per-level: 1000000
+  nuke:
+    display: "&7Nuke"
+    max-level: 1
+    enabled: true
+    chance: 0.1
+    cost-per-level: 1000000
+  give-token:
+    display: "&7Recolector de tokens"
+    max-level: 20
+    price-for-level: 10
+    messageStatus: true
+    enabled: true
+    cost-per-level: 1000
 
 # Bloques permitidos
 allowed-blocks:
@@ -51,3 +70,72 @@ database:
   name: minecraft
   username: usuario
   password: contraseña
+
+
+message-prefix: "&e&lTOKENS &f» &7"
+
+messages:
+  general:
+    no-permission: "No tienes permiso para hacer esto."
+    plugin-enabled: "Plugin habilitado correctamente."
+    plugin-disabled: "Plugin deshabilitado correctamente."
+    enchants-reloaded: "¡Encantamientos y configuración recargados!"
+
+  nuke:
+    activated: "¡Nuke activado exitosamente!"
+    invalid-mine: "No estás en una mina válida."
+
+  explosive:
+    activated: "¡Explosión activada!"
+
+  give-token:
+    received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
+  
+  token:
+    add-usage: "Uso: /token add <jugador> <cantidad>"
+    remove-usage: "Uso: /token remove <jugador> <cantidad>"
+    set-usage: "Uso: /token set <jugador> <cantidad>"
+    give-usage: "Uso: /token give <jugador> <cantidad>"
+    pay-usage: "Uso: /token pay <jugador> <cantidad>"
+    balance-usage: "Uso: /token balance [jugador]"
+    player-not-found: "Jugador no encontrado."
+    invalid-amount: "La cantidad debe ser un número positivo válido (ej: 1500, 1.5K, 2M, 3B, 1.5Q)."
+    add-success: "Se añadieron &e%amount% &7tokens a &e%player%&7."
+    remove-success: "Se eliminaron &e%amount% &ctokens de &e%player%&c."
+    set-success: "El saldo de tokens de &e%player% &7se ha establecido en &e%amount%&7."
+    give-success: "Has dado &e%amount% &7tokens a &e%player%&7."
+    pay-success: "Has pagado &e%amount% &7tokens a &e%player%&7."
+    pay-received: "Has recibido &e%amount% &7tokens de &e%player%&7."
+    insufficient-tokens: "No tienes suficientes tokens."
+    new-balance: "Tu nuevo saldo de tokens es: &e%balance%"
+    balance: "Saldo de tokens de &e%player%&7: &e%balance%"
+    self-balance: "Tu saldo de tokens es: &e%balance%"
+    already-has-tokens: "El jugador ya tiene esa cantidad de tokens."
+    negative-amount: "La cantidad debe ser mayor que cero."
+    not-a-number: "La cantidad debe ser un número válido."
+    give-token-received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
+    only-player: "Este comando solo puede usarlo un jugador."
+    self-balance: "Tu saldo de tokens es: &e%balance%"
+    
+
+  fortune:
+    applied: "¡Fortune aplicado! Has recibido &e%amount% &7bonus."
+
+  pickaxe:
+    invalid-block: "No puedes picar este bloque con tu pico personalizado."
+    only-player: "Este comando solo puede usarse en el juego."
+    received: "Has recibido el &bPico Supremo&7."
+    
+
+  enchant:
+    register-success: "Encantamiento registrado: &e%enchant%"
+    register-fail: "No se pudo registrar encantamiento: &e%enchant%"
+    usage: "Uso: /token enchant <jugador> <encantamiento> <nivel>"
+    player-not-found: "El jugador no está conectado."
+    invalid-level: "El nivel debe ser un número válido."
+    no-pickaxe: "El jugador debe tener un pico en la mano."
+    not-custom-pickaxe: "El pico no es un Pico Supremo."
+    unknown: "Encantamiento desconocido: &e%enchant%"
+    invalid-range: "Nivel inválido. Debe estar entre %min% y %max%."
+    removed: "Encantamiento &e%enchant% &7removido del jugador &e%player%&7."
+    applied: "Encantamiento &e%enchant% &7aplicado al jugador &e%player% &7con nivel &e%level%&7."

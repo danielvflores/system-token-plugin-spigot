@@ -17,7 +17,6 @@ public class Speed implements CustomEnchant {
 
     public Speed(int level) {
         this.level = level;
-        // Obtener valores de la configuración
         this.displayName = PrisonEnchantCustom.getInstance().getConfig()
                 .getString("enchants.speed.display", "Velocidad");
         this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()

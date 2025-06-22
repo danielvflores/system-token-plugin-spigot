@@ -57,10 +57,13 @@ public class TokenManager {
         setTokens(uuid, current.add(amount));
     }
 
-    public void removeTokens(UUID uuid, BigDecimal amount) {
+    public boolean removeTokens(UUID uuid, BigDecimal amount) {
         BigDecimal current = getTokens(uuid);
-        BigDecimal newAmount = current.subtract(amount);
-        if (newAmount.signum() < 0) newAmount = BigDecimal.ZERO;
-        setTokens(uuid, newAmount);
+        if (current.compareTo(amount) < 0) {
+            // No tiene suficientes tokens
+            return false;
+        }
+        setTokens(uuid, current.subtract(amount));
+        return true;
     }
 }

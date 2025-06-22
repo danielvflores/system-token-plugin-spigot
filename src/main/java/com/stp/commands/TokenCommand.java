@@ -56,6 +56,15 @@ public class TokenCommand implements CommandExecutor {
 
         SubCommand subcommand = subcommands.get(subcommandName);
         if (subcommand != null) {
+            if (subcommandName.equals("enchant")) {
+                if (args.length < 2) {
+                    sender.sendMessage("§cUsa /token enchant <set|nextlevel|downlevel> ...");
+                    return true;
+                }
+                String[] subArgs = new String[args.length - 1];
+                System.arraycopy(args, 1, subArgs, 0, args.length - 1);
+                return subcommand.execute(sender, subArgs);
+            }
             return subcommand.execute(sender, args);
         }
 

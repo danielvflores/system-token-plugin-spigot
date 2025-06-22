@@ -2,6 +2,6 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.compile.nullAnalysis.mode": "automatic",
     "java.project.referencedLibraries": [
-    "libs/Autosell.jar"
-  ]
+    "libs/*.jar",
+  ],
 }
