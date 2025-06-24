@@ -59,7 +59,7 @@ This project is in an **early/incomplete stage** and under active development.
   - `%stp_token_balance_formatted%` — Returns the player's token balance formatted with suffixes (1, 10, 100, 1K, 10K, 100K, 1M, etc.).
   - `%stp_enchant_<enchant>_<suffix>%` — Suffix supported:
     - `%stp_enchant_<enchant>_current_level%` — Returns the current level of the enchantment.
-    - `%stp_enchant_<enchant>__next_level%` — Returns the next level of the enchantment, or the max level if the current level is already at max.
+    - `%stp_enchant_<enchant>_next_level%` — Returns the next level of the enchantment, or the max level if the current level is already at max.
     - `%stp_enchant_<enchant>_max_level%` — Returns the max level of the enchantment.
     - `%stp_enchant_<enchant>_name%` — Returns the name of the enchantment.
   - `%stp_pickaxe_name%` — Display Pickaxe's name.
