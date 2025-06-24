@@ -74,7 +74,7 @@ This project is in an **early/incomplete stage** and under active development.
 
 ## 🖼️ Preview
 
-https://i.imgur.com/AuxgCtv.png
+![Pickaxe Preview](https://i.imgur.com/AuxgCtv.png)
 
 ---
 
