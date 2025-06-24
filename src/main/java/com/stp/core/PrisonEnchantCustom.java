@@ -3,6 +3,7 @@ package com.stp.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,7 +11,7 @@ import com.stp.commands.EnchantReloadCommand;
 import com.stp.commands.TokenCommand;
 import com.stp.commands.object.GivePickaxeCommand;
 import com.stp.commands.utility.TokenTabCompleter;
-import com.stp.db.DatabaseManager;
+import com.stp.db.TokenStorage;
 import com.stp.economy.TokenManager;
 import com.stp.enchants.CustomEnchant;
 import com.stp.enchants.impl.Efficiency;
@@ -22,10 +23,11 @@ import com.stp.enchants.impl.Nuke;
 import com.stp.enchants.impl.Speed;
 import com.stp.listeners.EnchantEffectTask;
 import com.stp.listeners.PickaxeListener;
+import com.stp.utils.STPExpansion;
 
 public class PrisonEnchantCustom extends JavaPlugin {
     private static PrisonEnchantCustom instance;
-    private DatabaseManager databaseManager;
+    private TokenStorage databaseManager;
     private TokenManager tokenManager;
     private EnchantmentManager enchantmentManager;
 
@@ -35,7 +37,7 @@ public class PrisonEnchantCustom extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
-        this.databaseManager = new DatabaseManager(this);
+        this.databaseManager = new TokenStorage(this);
         this.tokenManager = new TokenManager(databaseManager);
         this.enchantmentManager = new EnchantmentManager();
         
@@ -73,6 +75,10 @@ public class PrisonEnchantCustom extends JavaPlugin {
         getCommand("enchantsreload").setExecutor(new EnchantReloadCommand());
         getServer().getPluginManager().registerEvents(new PickaxeListener(), this);
 
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new STPExpansion().register();
+        }
+
 
         getLogger().info("Plugin habilitado correctamente.");
     }
@@ -84,7 +90,7 @@ public class PrisonEnchantCustom extends JavaPlugin {
     }
 
     public static PrisonEnchantCustom getInstance() { return instance; }
-    public DatabaseManager getDatabaseManager() { return databaseManager; }
+    public TokenStorage getDatabaseManager() { return databaseManager; }
     public TokenManager getTokenManager() { return tokenManager; }
     public EnchantmentManager getEnchantmentManager() { return enchantmentManager; }
 

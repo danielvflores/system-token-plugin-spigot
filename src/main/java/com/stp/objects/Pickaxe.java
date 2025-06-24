@@ -2,6 +2,7 @@ package com.stp.objects;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,14 +28,14 @@ public class Pickaxe {
         String rawName = PrisonEnchantCustom.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&3&lCustom Pickaxe");
 
-        String displayName = PlaceholderUtil.applyPlaceholders(player, rawName, Map.of());
+        String displayName = PlaceholderUtil.applyPlaceholders(player, rawName, new HashMap<String, String>());
         meta.setDisplayName(color(displayName));
 
         List<String> loreConfig = PrisonEnchantCustom.getInstance().getConfig().getStringList("pickaxe.lore");
         List<String> lore = new ArrayList<>();
         for (String line : loreConfig) {
             if (!line.contains("{}")) {
-                String processed = PlaceholderUtil.applyPlaceholders(player, line, Map.of());
+                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<String, String>());
                 lore.add(color(processed));
             }
         }
@@ -127,10 +128,10 @@ public class Pickaxe {
                 if (enchantLore.isEmpty()) continue;
                 for (String enchantLine : enchantLore) {
                     String processed = line.replace("{}", enchantLine);
-                    newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, Map.of())));
+                    newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<String, String>())));
                 }
             } else {
-                String processed = PlaceholderUtil.applyPlaceholders(player, line, Map.of());
+                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<String, String>());
                 newLore.add(color(processed));
             }
         }

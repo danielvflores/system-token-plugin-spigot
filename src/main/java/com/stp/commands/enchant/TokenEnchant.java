@@ -24,10 +24,13 @@ public class TokenEnchant implements SubCommand {
 
         switch (action) {
             case "set":
+                if (!managePermission(sender, "stp.enchant.set")) return true;
                 return handleSet(sender, args);
             case "nextlevel":
+                if (!managePermission(sender, "stp.enchant.nextlevel")) return true;
                 return handleNextLevel(sender, args);
             case "downlevel":
+                if (!managePermission(sender, "stp.enchant.downlevel")) return true;
                 return handleDownLevel(sender, args);
             default:
                 sender.sendMessage(MessageUtils.getMessage("enchant.usage"));
@@ -85,22 +88,25 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
+        String msg;
         if (level == 0) {
             ItemStack newItem = Pickaxe.removeCustomEnchantment(item, enchantId, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onDisable(target);
-            sender.sendMessage(MessageUtils.getMessage("enchant.removed")
+            msg = MessageUtils.getMessage("enchant.removed")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
-                .replace("%player%", playerName));
+                .replace("%player%", playerName);
         } else {
             ItemStack newItem = Pickaxe.addCustomEnchantment(item, enchant, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onEnable(target, level);
-            sender.sendMessage(MessageUtils.getMessage("enchant.applied")
+            msg = MessageUtils.getMessage("enchant.applied")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
                 .replace("%player%", playerName)
-                .replace("%level%", String.valueOf(level)));
+                .replace("%level%", String.valueOf(level));
         }
+        if (sender != target) target.sendMessage(msg);
+        sender.sendMessage(msg);
         return true;
     }
 
@@ -111,6 +117,15 @@ public class TokenEnchant implements SubCommand {
         }
         String playerName = args[1];
         String enchantId = args[2].toLowerCase();
+
+        if (sender instanceof Player) {
+            Player playerSender = (Player) sender;
+            if (!playerSender.getName().equalsIgnoreCase(playerName)
+                    && !playerSender.hasPermission("stp.enchant.nextlevel.other")) {
+                sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
+                return true;
+            }
+        }
 
         Player target = Bukkit.getPlayerExact(playerName);
         if (target == null) {
@@ -146,11 +161,9 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        // Leer el costo del config
         int cost = PrisonEnchantCustom.getInstance().getConfig()
             .getInt("enchants." + enchantId + ".cost-per-level", 1000);
 
-        // Cobrar tokens
         boolean success = PrisonEnchantCustom.getInstance().getTokenManager()
             .removeTokens(target.getUniqueId(), java.math.BigDecimal.valueOf(cost));
         if (!success) {
@@ -161,10 +174,12 @@ public class TokenEnchant implements SubCommand {
         ItemStack newItem = Pickaxe.addCustomEnchantment(item, enchant, target);
         target.getInventory().setItemInHand(newItem);
         enchant.onEnable(target, currentLevel + 1);
-        sender.sendMessage(MessageUtils.getMessage("enchant.applied")
+        String msg = MessageUtils.getMessage("enchant.applied")
             .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
             .replace("%player%", playerName)
-            .replace("%level%", String.valueOf(currentLevel + 1)));
+            .replace("%level%", String.valueOf(currentLevel + 1));
+        if (sender != target) target.sendMessage(msg);
+        sender.sendMessage(msg);
         return true;
     }
 
@@ -175,6 +190,15 @@ public class TokenEnchant implements SubCommand {
         }
         String playerName = args[1];
         String enchantId = args[2].toLowerCase();
+
+        if (sender instanceof Player) {
+            Player playerSender = (Player) sender;
+            if (!playerSender.getName().equalsIgnoreCase(playerName)
+                    && !playerSender.hasPermission("stp.enchant.downlevel.other")) {
+                sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
+                return true;
+            }
+        }
 
         Player target = Bukkit.getPlayerExact(playerName);
         if (target == null) {
@@ -210,40 +234,46 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        // Leer el costo del config y calcular el 90%
         int cost = PrisonEnchantCustom.getInstance().getConfig()
             .getInt("enchants." + enchantId + ".cost-per-level", 1000);
         int refund = (int) Math.round(cost * 0.9);
 
+        String msg;
         if (currentLevel - 1 == 0) {
             ItemStack newItem = Pickaxe.removeCustomEnchantment(item, enchantId, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onDisable(target);
-            // Reembolsar tokens
             PrisonEnchantCustom.getInstance().getTokenManager()
                 .addTokens(target.getUniqueId(), java.math.BigDecimal.valueOf(refund));
-            sender.sendMessage(MessageUtils.getMessage("enchant.removed")
+            msg = MessageUtils.getMessage("enchant.removed")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
-                .replace("%player%", playerName));
+                .replace("%player%", playerName);
         } else {
             ItemStack newItem = Pickaxe.addCustomEnchantment(item, enchant, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onEnable(target, currentLevel - 1);
-            // Reembolsar tokens
             PrisonEnchantCustom.getInstance().getTokenManager()
                 .addTokens(target.getUniqueId(), java.math.BigDecimal.valueOf(refund));
-            sender.sendMessage(MessageUtils.getMessage("enchant.applied")
+            msg = MessageUtils.getMessage("enchant.applied")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
                 .replace("%player%", playerName)
-                .replace("%level%", String.valueOf(currentLevel - 1)));
+                .replace("%level%", String.valueOf(currentLevel - 1));
         }
+        if (sender != target) target.sendMessage(msg);
+        sender.sendMessage(msg);
         return true;
     }
-
-
 
     private String getDisplayNamePlain(String displayName) {
         String colored = displayName.replace("&", "§");
         return colored.replaceAll("§[0-9a-fk-or]", "");
+    }
+
+    private boolean managePermission(CommandSender sender, String permission) {
+        if (!sender.hasPermission(permission)) {
+            sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
+            return false;
+        }
+        return true;
     }
 }

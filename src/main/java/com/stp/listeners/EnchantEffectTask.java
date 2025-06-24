@@ -32,7 +32,7 @@ public class EnchantEffectTask extends BukkitRunnable {
                 int level = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
                 if (level > 0) {
                     CustomEnchant enchant = activeEnchantments
-                        .computeIfAbsent(player.getUniqueId(), k -> new HashMap<>())
+                        .computeIfAbsent(player.getUniqueId(), k -> new HashMap<String, CustomEnchant>())
                         .computeIfAbsent(enchantId, k -> 
                             PrisonEnchantCustom.getInstance()
                                 .getEnchantmentManager()
@@ -41,7 +41,7 @@ public class EnchantEffectTask extends BukkitRunnable {
                     enchant.applyEffect(player, level);
                 } else {
                     CustomEnchant oldEnchant = activeEnchantments
-                        .getOrDefault(player.getUniqueId(), Map.of())
+                        .getOrDefault(player.getUniqueId(), new HashMap<String, CustomEnchant>())
                         .get(enchantId);
                     
                     if (oldEnchant != null) {

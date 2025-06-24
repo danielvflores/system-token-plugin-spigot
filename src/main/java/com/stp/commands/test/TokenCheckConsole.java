@@ -21,13 +21,13 @@ public class TokenCheckConsole implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        // Solo consola puede usarlo
+
         if (!(sender instanceof ConsoleCommandSender)) {
             sender.sendMessage("§cEste comando solo puede usarse desde la consola.");
             return true;
         }
 
-        if (args.length < 2) { // ojo, args[0] será "tokencheck", args[1] el nombre
+        if (args.length < 2) {
             System.out.println("Uso: /token tokencheck <jugador>");
             return true;
         }

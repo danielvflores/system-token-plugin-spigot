@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class TokenTabCompleter implements TabCompleter {
 
     private static final List<String> SUBCOMMANDS = Arrays.asList(
-        "add", "remove", "set", "balance", "enchant", "give", "pay"
+        "add", "remove", "set", "balance", "enchant"
     );
     private static final List<String> ENCHANT_SUBS = Arrays.asList(
         "set", "nextlevel", "downlevel"

@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import com.stp.db.DatabaseManager;
+import com.stp.db.TokenStorage;
 
 public class TokenManager {
-    private final DatabaseManager db;
+    private final TokenStorage db;
 
-    public TokenManager(DatabaseManager db) {
+    public TokenManager(TokenStorage db) {
         this.db = db;
     }
 
@@ -60,7 +60,6 @@ public class TokenManager {
     public boolean removeTokens(UUID uuid, BigDecimal amount) {
         BigDecimal current = getTokens(uuid);
         if (current.compareTo(amount) < 0) {
-            // No tiene suficientes tokens
             return false;
         }
         setTokens(uuid, current.subtract(amount));

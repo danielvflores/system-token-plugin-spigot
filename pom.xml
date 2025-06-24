@@ -7,6 +7,11 @@
     <artifactId>systemtokensprison</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <repositories>
         <repository>
             <id>spigot-repo</id>
@@ -44,6 +49,14 @@
             <version>5.5.8</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/worldedit-5.5.8.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/PlaceholderAPI-2.11.7.jar</systemPath>
         </dependency>
 
     </dependencies>

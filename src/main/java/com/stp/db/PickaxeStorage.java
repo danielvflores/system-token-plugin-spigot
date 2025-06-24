@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class PickaxeStorage {
 
-    private final DatabaseManager db;
+    private final TokenStorage db;
 
-    public PickaxeStorage(DatabaseManager db) {
+    public PickaxeStorage(TokenStorage db) {
         this.db = db;
     }
 
