@@ -55,9 +55,15 @@ This project is in an **early/incomplete stage** and under active development.
 - The plugin includes support for [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) via **STPExpansion**.
 - You can use custom placeholders in chat, scoreboards, holograms, and more.
 - Available placeholders:
-  - `%stp_tokens%` — Shows the player's token balance.
-  - `%stp_pickaxe_enchants%` — Lists the active enchantments on the player's pickaxe.
-  - `%stp_pickaxe_level_<enchant>%` — Shows the level of a specific enchantment on the player's pickaxe.
+  - `%stp_token_balance%` — Returns the player's token balance as a string (1, 10, 100, 1000, 100000000).
+  - `%stp_token_balance_formatted%` — Returns the player's token balance formatted with suffixes (1, 10, 100, 1K, 10K, 100K, 1M, etc.).
+  - `%stp_enchant_<enchant>_<suffix>%` — Suffix supported:
+    - `%stp_enchant_<enchant>_current_level%` — Returns the current level of the enchantment.
+    - `%stp_enchant_<enchant>__next_level%` — Returns the next level of the enchantment, or the max level if the current level is already at max.
+    - `%stp_enchant_<enchant>_max_level%` — Returns the max level of the enchantment.
+    - `%stp_enchant_<enchant>_name%` — Returns the name of the enchantment.
+  - `%stp_pickaxe_name%` — Display Pickaxe's name.
+  - `%stp_pickaxe_lore%` — Display all Pickaxe's lore.
 
 **How to use:**
 1. Install PlaceholderAPI on your server.
