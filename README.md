@@ -50,6 +50,22 @@ This project is in an **early/incomplete stage** and under active development.
 
 ---
 
+## 🧩 PlaceholderAPI Support (STPExpansion)
+
+- The plugin includes support for [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) via **STPExpansion**.
+- You can use custom placeholders in chat, scoreboards, holograms, and more.
+- Available placeholders:
+  - `%stp_tokens%` — Shows the player's token balance.
+  - `%stp_pickaxe_enchants%` — Lists the active enchantments on the player's pickaxe.
+  - `%stp_pickaxe_level_<enchant>%` — Shows the level of a specific enchantment on the player's pickaxe.
+
+**How to use:**
+1. Install PlaceholderAPI on your server.
+2. The plugin automatically registers the placeholders on startup.
+3. Use the placeholders in any plugin compatible with PlaceholderAPI.
+
+---
+
 ## 📦 Project Structure
 
 ```
@@ -243,4 +259,3 @@ Open issues or pull requests to help improve the project.
 
 ## 🔗 Links
 ⚒️ [Spigot Page Plugin ](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)
-
