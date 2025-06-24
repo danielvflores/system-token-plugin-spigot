@@ -74,6 +74,7 @@ This project is in an **early/incomplete stage** and under active development.
 
 ## 🖼️ Preview
 
+`Photo of the pickaxe with the current enchantments (BETA 1.0.1)`:
 ![Pickaxe Preview](https://i.imgur.com/AuxgCtv.png)
 
 ---
