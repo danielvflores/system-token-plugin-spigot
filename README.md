@@ -242,3 +242,5 @@ Open issues or pull requests to help improve the project.
 ---
 
 ## 🔗 Links
+⚒️ [Spigot Page Plugin ](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)
+
