@@ -72,16 +72,9 @@ This project is in an **early/incomplete stage** and under active development.
 
 ---
 
----
-
 ## 🖼️ Preview
 
-<details>
-<summary>Haz clic para ver un ejemplo de pickaxe y encantamientos</summary>
-
-![Pickaxe Preview](https://imgur.com/a/gAqzNDd)
-
-</details>
+https://i.imgur.com/AuxgCtv.png
 
 ---
 
