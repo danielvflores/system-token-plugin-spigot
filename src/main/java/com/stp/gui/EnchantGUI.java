@@ -87,7 +87,6 @@ public class EnchantGUI {
         String lastColors = "";
 
         for (String word : line.split(" ")) {
-            // Mantener los colores
             if (word.contains("§")) {
                 colorIndex = word.lastIndexOf("§");
                 if (colorIndex != -1 && word.length() > colorIndex + 1) {
