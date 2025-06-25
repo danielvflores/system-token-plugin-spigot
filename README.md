@@ -5,11 +5,8 @@ This project is in an **early/incomplete stage** and under active development.
 
 ---
 **⬇️ [Download Latest Release](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)**
----
 
----
 **⬇️ [Download Latest Plugin Update from Spigot](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)**
----
 
 > 📁 **All Download links are available.**
 
