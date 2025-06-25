@@ -95,6 +95,11 @@ public class EnchantmentManager {
         }
     }
 
+    public String getCurrentCostFormatted(Player player, String enchantId) {
+        java.math.BigDecimal cost = getCurrentCost(player, enchantId);
+        return com.stp.utils.NumberUtils.formatWithSuffix(cost);
+    }
+
     public boolean isEnchantmentRegistered(String enchantId) {
         return enchants.containsKey(enchantId.toLowerCase());
     }
