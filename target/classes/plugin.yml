@@ -1,6 +1,6 @@
 name: PrisonEnchantCustom
 main: com.stp.core.PrisonEnchantCustom
-version: 1.0.1
+version: 1.0.2
 commands:
   token:
     description: Main Command
