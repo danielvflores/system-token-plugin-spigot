@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.stp.commands.EnchantReloadCommand;
 import com.stp.commands.TokenCommand;
+import com.stp.commands.gui.OpenEnchantGUI;
 import com.stp.commands.object.GivePickaxeCommand;
 import com.stp.commands.utility.TokenTabCompleter;
 import com.stp.db.TokenStorage;
@@ -18,6 +19,7 @@ import com.stp.enchants.impl.Efficiency;
 import com.stp.enchants.impl.Explosive;
 import com.stp.enchants.impl.Fly;
 import com.stp.enchants.impl.Fortune;
+import com.stp.enchants.impl.GiveMoney;
 import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
 import com.stp.enchants.impl.Speed;
@@ -49,7 +51,8 @@ public class PrisonEnchantCustom extends JavaPlugin {
             Fortune.class,
             Fly.class,
             Nuke.class,
-            GiveToken.class 
+            GiveToken.class,
+            GiveMoney.class
         };
 
         for (Class<? extends CustomEnchant> enchantClass : enchantClasses) {
@@ -73,7 +76,14 @@ public class PrisonEnchantCustom extends JavaPlugin {
         getCommand("token").setTabCompleter(new TokenTabCompleter());
         getCommand("givepickaxe").setExecutor(new GivePickaxeCommand());
         getCommand("enchantsreload").setExecutor(new EnchantReloadCommand());
+        getCommand("openenchantgui").setExecutor(new OpenEnchantGUI());
         getServer().getPluginManager().registerEvents(new PickaxeListener(), this);
+
+
+        List<String> lockedMenus = getConfig().getStringList("locked-menus");
+        getServer().getPluginManager().registerEvents(
+            new com.stp.listeners.InvLock(lockedMenus.toArray(new String[0])), this
+        );
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new STPExpansion().register();

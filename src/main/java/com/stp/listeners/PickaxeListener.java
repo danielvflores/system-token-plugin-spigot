@@ -26,6 +26,7 @@ import com.stp.db.PickaxeStorage;
 import com.stp.enchants.CustomEnchant;
 import com.stp.enchants.impl.Explosive;
 import com.stp.enchants.impl.Fortune;
+import com.stp.enchants.impl.GiveMoney;
 import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
 import com.stp.objects.Pickaxe;
@@ -125,6 +126,9 @@ public class PickaxeListener implements Listener {
 
             if (enchant instanceof GiveToken) {
                 ((GiveToken) enchant).handleBlockBreak(player, item);
+            }
+            if (enchant instanceof GiveMoney) {
+                ((GiveMoney) enchant).handleBlockBreak(player, item);
             }
         }
     }
