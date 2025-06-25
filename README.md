@@ -5,7 +5,7 @@ This project is in an **early/incomplete stage** and under active development.
 
 ---
 
-## 🌟 Features (Planned & Implemented)
+## 🌟 Features
 
 - 🪙 **Token Economy**  
   Add, remove, set, and check player tokens with commands. Tokens are stored in a local SQLite database.
@@ -13,12 +13,21 @@ This project is in an **early/incomplete stage** and under active development.
 - ⛏️ **Custom Pickaxe System**  
   Give players a special pickaxe with custom display name, lore, and persistent NBT data.
 
-- ✨ **Custom Enchantments**  
-  - Speed, Explosive, Efficiency, Fortune, Fly, Nuke, Give-Token (all configurable)
-  - Each enchantment has configurable `cost-per-level` in `config.yml`.
+- ✨ **Flexible Custom Enchantments**
+  - Speed, Explosive, Efficiency, Fortune, Fly, Nuke, GiveToken, GiveMoney (all configurable)
+  - **Per-enchant price model system:**
+    - LINEAR, EXPONENTIAL, LOGARITHMIC, PROGRESSIVE_ARITHMETIC
+    - Each enchantment can have its own model and parameters in `config.yml`.
+    - Cost is calculated dynamically based on the model and level.
   - Enchantments are stored as custom NBT tags and reflected in the pickaxe lore.
-  - Some enchantments (like Explosive and Fortune) have custom effects on block break.
-  - Subir de nivel un encantamiento cuesta tokens según el config, y bajar de nivel reembolsa el 90% del costo.
+  - Custom effects (e.g., Explosive, Fortune, GiveToken, GiveMoney).
+  - Leveling up costs tokens according to the configured model; leveling down refunds 90% of the cost.
+
+- 🖼️ **Enchantments GUI**
+  - Fully configurable interface from `config.yml`.
+  - Placeholder support in name and lore.
+  - Clicking an enchantment charges the correct cost, applies the enchantment, and refreshes the GUI.
+  - Feedback if you lack tokens or permissions.
 
 - 🔒 **Pickaxe Protection**  
   Prevent accidental dropping of the custom pickaxe (requires double-tap Q).
@@ -74,8 +83,17 @@ This project is in an **early/incomplete stage** and under active development.
 
 ## 🖼️ Preview
 
-`Photo of the pickaxe with the current enchantments (BETA 1.0.1)`:
+**Pickaxe with current enchantments (BETA 1.0.1):**
 ![Pickaxe Preview](https://i.imgur.com/AuxgCtv.png)
+
+**EnchantGUI menu (native to the plugin, BETA 1.0.2):**
+![EnchantGUIMenu Preview](https://i.imgur.com/VVasNZz.png)
+
+**EnchantGUI menu showing current pickaxe's enchants (BETA 1.0.2):**
+![PickaxeEnchantGUI Preview](https://i.imgur.com/tyA91aE.png)
+
+**EnchantGUI menu showing available enchants to unlock (BETA 1.0.2):**
+![EnchantsfromEnchantGUI Preview](https://i.imgur.com/wOzCWPe.png)
 
 ---
 
@@ -101,7 +119,6 @@ project-root/
 ## 🚀 Getting Started
 
 ### Requirements
-
 - Java 17+ (for compiling, but runs on Spigot 1.8.8)
 - Maven
 - Spigot 1.8.8 server
@@ -115,8 +132,7 @@ mvn clean package
 Copy the generated `.jar` from `target/` to your server's `plugins/` folder.
 
 ### Configuration
-
-- Edit `config.yml` for pickaxe display, enchantments, allowed blocks, database settings, and messages.
+- Edit `config.yml` for pickaxe display, enchantments, price models, GUI, messages, etc.
 - Edit `plugin.yml` for command registration.
 
 ---
@@ -136,10 +152,12 @@ Copy the generated `.jar` from `target/` to your server's `plugins/` folder.
 
 **Tab-completion** is available for all commands and subcommands.
 
+---
+
 ## ⚡ Example Config (`config.yml`)
 
 ```yaml
-# Configuración básica del pico
+# Basic pickaxe config
 pickaxe:
   display-name: "&f&lPICO &7&l| &a&lINICIAL"
   lore:
@@ -149,49 +167,44 @@ pickaxe:
     - "&a&lEncantamientos:"
     - "&2» {}"
 
-# Encantamientos
+enchant-gui:
+  title: "&7Enchant Menu"
+  size: 45
+  items:
+    efficiency:
+      slot: 12
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_efficiency_name%"
+      lore:
+        - "&7Increases mining speed."
+        - "&f• Levels: &f%enchant_efficiency_current_level% / %enchant_efficiency_max_level%"
+        - "&f• Cost: &f%enchant_efficiency_cost_per_level% tokens"
+    # ...other enchantments...
+
 enchants:
-  speed:
-    display: "&7Speed"
-    max-level: 2
-    enabled: true
-    cost-per-level: 2000
-  explosive:
-    display: "&7Explosive"
-    max-level: 50
-    enabled: true
-    chance: 70
-    cost-per-level: 100000
   efficiency:
     display: "&7Efficiency"
     max-level: 100
     enabled: true
-    cost-per-level: 1000
-  fortune:
-    display: "&7Fortune"
+    price-model: LINEAR
+    base-cost: 1000
+    # You can define: factor, increment, etc. depending on the model
+  givemoney:
+    display: "&7GiveMoney"
     max-level: 20
     enabled: true
-    cost-per-level: 5000
-  fly:
-    display: "&7Fly"
-    max-level: 1
-    enabled: true
-    cost-per-level: 1000000
-  nuke:
-    display: "&7Nuke"
-    max-level: 1
-    enabled: true
-    chance: 0.1
-    cost-per-level: 1000000
-  give-token:
-    display: "&7Recolector de tokens"
+    price-model: EXPONENTIAL
+    base-cost: 1000
+    factor: 1.15
+  givetoken:
+    display: "&7GiveToken"
     max-level: 20
-    price-for-level: 10
-    messageStatus: true
     enabled: true
-    cost-per-level: 1000
+    price-model: PROGRESSIVE_ARITHMETIC
+    base-cost: 1000
+    increment: 250
 
-# Bloques permitidos
+# Allowed blocks
 allowed-blocks:
   - STONE
   - COBBLESTONE
@@ -205,7 +218,7 @@ fortune-blocks:
   - DIAMOND_BLOCK
   - EMERALD_BLOCK
 
-# Base de datos
+# Database
 database:
   host: localhost
   name: minecraft
