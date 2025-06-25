@@ -49,7 +49,7 @@ public class EnchantGUI {
                     String rawName = itemSec.getString("name").replace("&", "§");
                     meta.setDisplayName(PlaceholderUtil.applyPlaceholders(player, rawName));
                 }
-
+ 
                 if (itemSec.contains("lore")) {
                     List<String> lore = itemSec.getStringList("lore");
                     java.util.List<String> finalLore = new java.util.ArrayList<>();
