@@ -9,7 +9,15 @@ pickaxe:
     - "&2» {}"
 
 
-# MODELS PRICES [LINEAL, EXPONENTIAL, LOGARITHMIC, PROGRESSIVE_ARITHMETIC]:
+# MODELS PRICES:
+# - LINEAR: price = cost-per-level * level
+# - LOGARITHMIC: price = cost-per-level * log(level + 2)
+# - EXPONENTIAL: price = cost-per-level * (factor ^ level)   # default factor: 1.5
+# - PROGRESSIVE_ARITHMETIC: price = cost-per-level + (level - 1) * increment   # default increment: 500
+#
+# Only EXPONENTIAL uses 'factor'.
+# Only PROGRESSIVE_ARITHMETIC uses 'increment'.
+# IMPORTANT: If the model is LINEAR or LOGARITHMIC, the other parameters are ignored.
 model: LINEAL
 
 # ENCHANTS PROPERTIES
@@ -19,10 +27,8 @@ enchants:
     max-level: 2
     enabled: true
     cost-per-level: 2000
-    # EXPONENTIAL: factor (opcional, default 1.5)
-    factor: 1.5
-    # PROGRESSIVE_ARITHMETIC: increment (opcional, default 500)
-    increment: 500
+    factor: 1.5 # EXPO
+    increment: 500 # P-A
   explosive:
     display: "&7Explosive"
     max-level: 50
