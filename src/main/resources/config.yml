@@ -1,4 +1,4 @@
-# Configuración básica del pico
+# CONFIG BETA 1.0.1
 pickaxe:
   display-name: "&f&lPICO &7&l| &a&lINICIAL"
   lore:
@@ -8,40 +8,58 @@ pickaxe:
     - "&a&lEncantamientos:"
     - "&2» {}"
 
-# Encantamientos
+
+# MODELS PRICES [LINEAL, EXPONENTIAL, LOGARITHMIC, PROGRESSIVE_ARITHMETIC]:
+model: LINEAL
+
+# ENCHANTS PROPERTIES
 enchants:
   speed:
     display: "&7Speed"
     max-level: 2
     enabled: true
     cost-per-level: 2000
+    # EXPONENTIAL: factor (opcional, default 1.5)
+    factor: 1.5
+    # PROGRESSIVE_ARITHMETIC: increment (opcional, default 500)
+    increment: 500
   explosive:
     display: "&7Explosive"
     max-level: 50
     enabled: true
     chance: 70
     cost-per-level: 100000
+    factor: 1.5
+    increment: 500
   efficiency:
     display: "&7Efficiency"
     max-level: 100
     enabled: true
     cost-per-level: 1000
+    factor: 1.5
+    increment: 500
   fortune:
     display: "&7Fortune"
     max-level: 20
     enabled: true
     cost-per-level: 5000
+    factor: 1.5
+    increment: 500
   fly:
     display: "&7Fly"
     max-level: 1
     enabled: true
     cost-per-level: 1000000
+    factor: 1.5
+    increment: 500
   nuke:
     display: "&7Nuke"
     max-level: 1
     enabled: true
     chance: 0.1
     cost-per-level: 1000000
+    factor: 1.5
+    increment: 500
   give-token:
     display: "&7Recolector de tokens"
     max-level: 20
@@ -49,6 +67,8 @@ enchants:
     messageStatus: true
     enabled: true
     cost-per-level: 10000
+    factor: 1.5
+    increment: 500
   give-money:
     display: "&7Recolector de dinero"
     max-level: 50
@@ -56,8 +76,10 @@ enchants:
     messageStatus: true
     enabled: true
     cost-per-level: 10000
+    factor: 1.5
+    increment: 500
 
-# Bloques permitidos
+# ALLOWEDS
 allowed-blocks:
   - STONE
   - COBBLESTONE
@@ -71,7 +93,7 @@ fortune-blocks:
   - DIAMOND_BLOCK
   - EMERALD_BLOCK
 
-# Base de datos
+# DATABASE
 database:
   host: localhost
   name: minecraft
@@ -79,6 +101,8 @@ database:
   password: contraseña
 
 
+
+# MANAGE MESSAGES
 message-prefix: "&e&lTOKENS &f» &7"
 
 messages:
@@ -151,6 +175,7 @@ messages:
     applied: "Encantamiento &e%enchant% &7aplicado al jugador &e%player% &7con nivel &e%level%&7."
 
 
+# GUI CONFIGURATION
 enchant-gui:
   title: "&7Enchant Menu"
   size: 45
@@ -163,12 +188,13 @@ enchant-gui:
         - "%pickaxe_lore%"
     speed:
       slot: 12
-      material: BOOK
-      name: "%enchant_speed_name%"
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_speed_name%"
       lore:
-        - "&7Este encantamiento aumenta la velocidad del jugador mientras tenga el pico en la mano."
-        - "&f• &7Niveles: %enchant_speed_current_level% / %enchant_speed_max_level%"
-        - "&f• &7Costo por nivel: %enchant_speed_cost_per_level% tokens"
+        - "&7Este encantamiento aumenta la velocidad del jugador mientras setenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_speed_current_level% / %enchant_speed_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_speed_cost_per_level% tokens"
 
 
 locked-menus:
