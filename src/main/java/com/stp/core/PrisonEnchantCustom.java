@@ -24,6 +24,7 @@ import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
 import com.stp.enchants.impl.Speed;
 import com.stp.listeners.EnchantEffectTask;
+import com.stp.listeners.EnchantGUIListener;
 import com.stp.listeners.PickaxeListener;
 import com.stp.utils.STPExpansion;
 
@@ -78,6 +79,7 @@ public class PrisonEnchantCustom extends JavaPlugin {
         getCommand("enchantsreload").setExecutor(new EnchantReloadCommand());
         getCommand("openenchantgui").setExecutor(new OpenEnchantGUI());
         getServer().getPluginManager().registerEvents(new PickaxeListener(), this);
+        getServer().getPluginManager().registerEvents(new EnchantGUIListener(), this);
 
 
         List<String> lockedMenus = getConfig().getStringList("locked-menus");
