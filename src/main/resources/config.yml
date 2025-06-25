@@ -8,7 +8,7 @@ pickaxe:
     - "&a&lEncantamientos:"
     - "&2» {}"
 
-# Encantamientos para prueba
+# Encantamientos
 enchants:
   speed:
     display: "&7Speed"
@@ -48,7 +48,14 @@ enchants:
     price-for-level: 10
     messageStatus: true
     enabled: true
-    cost-per-level: 1000
+    cost-per-level: 10000
+  give-money:
+    display: "&7Recolector de dinero"
+    max-level: 50
+    price-for-level: 30
+    messageStatus: true
+    enabled: true
+    cost-per-level: 10000
 
 # Bloques permitidos
 allowed-blocks:
@@ -90,6 +97,8 @@ messages:
 
   give-token:
     received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
+  give-money:
+    received: "Has recibido &e%money% &7tokens por romper un bloque con &e%enchant%&7."
   
   token:
     add-usage: "Uso: /token add <jugador> <cantidad>"
@@ -114,6 +123,7 @@ messages:
     negative-amount: "La cantidad debe ser mayor que cero."
     not-a-number: "La cantidad debe ser un número válido."
     give-token-received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
+    give-money-received: "Has recibido &e%money% &7tokens por romper un bloque con &e%enchant%&7."
     only-player: "Este comando solo puede usarlo un jugador."
     self-balance: "Tu saldo de tokens es: &e%balance%"
     
@@ -139,3 +149,19 @@ messages:
     invalid-range: "Nivel inválido. Debe estar entre %min% y %max%."
     removed: "Encantamiento &e%enchant% &7removido del jugador &e%player%&7."
     applied: "Encantamiento &e%enchant% &7aplicado al jugador &e%player% &7con nivel &e%level%&7."
+
+
+enchant-gui:
+  title: "&7Enchant Menu"
+  size: 45
+  items:
+    pickaxe:
+      slot: 10
+      material: diamond_pickaxe
+      name: "%pickaxe_name%"
+      lore:
+        - "%pickaxe_lore%"
+
+
+locked-menus:
+  - "enchant menu"
