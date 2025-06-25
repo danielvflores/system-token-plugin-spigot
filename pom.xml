@@ -5,7 +5,7 @@
 
     <groupId>com.stp</groupId>
     <artifactId>systemtokensprison</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -35,6 +35,17 @@
             <version>3.42.0.0</version>
         </dependency>
 
+
+        <!-- VaultAPI -->
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/VaultAPI-1.7.jar</systemPath>
+        </dependency>
+
+        <!-- WorldGuard -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard</artifactId>
@@ -43,6 +54,7 @@
             <systemPath>${project.basedir}/libs/worldguard-6.1.jar</systemPath>
         </dependency>
 
+        <!-- WorldEdit -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit</artifactId>
@@ -51,6 +63,7 @@
             <systemPath>${project.basedir}/libs/worldedit-5.5.8.jar</systemPath>
         </dependency>
 
+        <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
