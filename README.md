@@ -157,7 +157,7 @@ Copy the generated `.jar` from `target/` to your server's `plugins/` folder.
 ## ⚡ Example Config (`config.yml`)
 
 ```yaml
-# Basic pickaxe config
+# CONFIG BETA 1.0.2
 pickaxe:
   display-name: "&f&lPICO &7&l| &a&lINICIAL"
   lore:
@@ -167,44 +167,85 @@ pickaxe:
     - "&a&lEncantamientos:"
     - "&2» {}"
 
-enchant-gui:
-  title: "&7Enchant Menu"
-  size: 45
-  items:
-    efficiency:
-      slot: 12
-      material: ENCHANTED_BOOK
-      name: "&f%enchant_efficiency_name%"
-      lore:
-        - "&7Increases mining speed."
-        - "&f• Levels: &f%enchant_efficiency_current_level% / %enchant_efficiency_max_level%"
-        - "&f• Cost: &f%enchant_efficiency_cost_per_level% tokens"
-    # ...other enchantments...
 
+# MODELS PRICES:
+# - LINEAR: price = cost-per-level * level
+# - LOGARITHMIC: price = cost-per-level * log(level + 2)
+# - EXPONENTIAL: price = cost-per-level * (factor ^ level)   # default factor: 1.5
+# - PROGRESSIVE_ARITHMETIC: price = cost-per-level + (level - 1) * increment   # default increment: 500
+#
+# Only EXPONENTIAL uses 'factor'.
+# Only PROGRESSIVE_ARITHMETIC uses 'increment'.
+# IMPORTANT: If the model is LINEAR or LOGARITHMIC, the other parameters are ignored.
+# LINEAL IS THE DEFAULT MODEL, IF YOU WANT TO CHANGE IT, JUST CHANGE THE MODEL NAME BELOW.
+model: LINEAL
+
+# ENCHANTS PROPERTIES
 enchants:
+  speed:
+    display: "&7Speed"
+    max-level: 2
+    enabled: true
+    cost-per-level: 2000
+    factor: 1.5 # EXPO
+    increment: 500 # P-A
+  explosive:
+    display: "&7Explosive"
+    max-level: 50
+    enabled: true
+    chance: 70
+    cost-per-level: 100000
+    factor: 1.5
+    increment: 500
   efficiency:
     display: "&7Efficiency"
     max-level: 100
     enabled: true
-    price-model: LINEAR
-    base-cost: 1000
-    # You can define: factor, increment, etc. depending on the model
-  givemoney:
-    display: "&7GiveMoney"
+    cost-per-level: 1000
+    factor: 1.5
+    increment: 500
+  fortune:
+    display: "&7Fortune"
     max-level: 20
     enabled: true
-    price-model: EXPONENTIAL
-    base-cost: 1000
-    factor: 1.15
+    cost-per-level: 5000
+    factor: 1.5
+    increment: 500
+  fly:
+    display: "&7Fly"
+    max-level: 1
+    enabled: true
+    cost-per-level: 1000000
+    factor: 1.5
+    increment: 500
+  nuke:
+    display: "&7Nuke"
+    max-level: 1
+    enabled: true
+    chance: 0.1
+    cost-per-level: 1000000
+    factor: 1.5
+    increment: 500
   givetoken:
-    display: "&7GiveToken"
+    display: "&7Recolector de tokens"
     max-level: 20
+    price-for-level: 10
+    messageStatus: true
     enabled: true
-    price-model: PROGRESSIVE_ARITHMETIC
-    base-cost: 1000
-    increment: 250
+    cost-per-level: 10000
+    factor: 1.5
+    increment: 500
+  givemoney:
+    display: "&7Recolector de dinero"
+    max-level: 50
+    price-for-level: 30
+    messageStatus: true
+    enabled: true
+    cost-per-level: 10000
+    factor: 1.5
+    increment: 500
 
-# Allowed blocks
+# ALLOWEDS
 allowed-blocks:
   - STONE
   - COBBLESTONE
@@ -218,13 +259,16 @@ fortune-blocks:
   - DIAMOND_BLOCK
   - EMERALD_BLOCK
 
-# Database
+# DATABASE
 database:
   host: localhost
   name: minecraft
   username: usuario
   password: contraseña
 
+
+
+# MANAGE MESSAGES
 message-prefix: "&e&lTOKENS &f» &7"
 
 messages:
@@ -243,6 +287,8 @@ messages:
 
   give-token:
     received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
+  give-money:
+    received: "Has recibido &e%money% &7tokens por romper un bloque con &e%enchant%&7."
   
   token:
     add-usage: "Uso: /token add <jugador> <cantidad>"
@@ -257,6 +303,131 @@ messages:
     remove-success: "Se eliminaron &e%amount% &ctokens de &e%player%&c."
     set-success: "El saldo de tokens de &e%player% &7se ha establecido en &e%amount%&7."
     give-success: "Has dado &e%amount% &7tokens a &e%player%&7."
+    pay-success: "Has pagado &e%amount% &7tokens a &e%player%&7."
+    pay-received: "Has recibido &e%amount% &7tokens de &e%player%&7."
+    insufficient-tokens: "No tienes suficientes tokens."
+    new-balance: "Tu nuevo saldo de tokens es: &e%balance%"
+    balance: "Saldo de tokens de &e%player%&7: &e%balance%"
+    self-balance: "Tu saldo de tokens es: &e%balance%"
+    already-has-tokens: "El jugador ya tiene esa cantidad de tokens."
+    negative-amount: "La cantidad debe ser mayor que cero."
+    not-a-number: "La cantidad debe ser un número válido."
+    give-token-received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
+    give-money-received: "Has recibido &e%money% &7tokens por romper un bloque con &e%enchant%&7."
+    only-player: "Este comando solo puede usarlo un jugador."
+    self-balance: "Tu saldo de tokens es: &e%balance%"
+    
+
+  fortune:
+    applied: "¡Fortune aplicado! Has recibido &e%amount% &7bonus."
+
+  pickaxe:
+    invalid-block: "No puedes picar este bloque con tu pico personalizado."
+    only-player: "Este comando solo puede usarse en el juego."
+    received: "Has recibido el &bPico Supremo&7."
+    
+
+  enchant:
+    register-success: "Encantamiento registrado: &e%enchant%"
+    register-fail: "No se pudo registrar encantamiento: &e%enchant%"
+    usage: "Uso: /token enchant <jugador> <encantamiento> <nivel>"
+    player-not-found: "El jugador no está conectado."
+    invalid-level: "El nivel debe ser un número válido."
+    no-pickaxe: "El jugador debe tener un pico en la mano."
+    not-custom-pickaxe: "El pico no es un Pico Supremo."
+    unknown: "Encantamiento desconocido: &e%enchant%"
+    invalid-range: "Nivel inválido. Debe estar entre %min% y %max%."
+    removed: "Encantamiento &e%enchant% &7removido del jugador &e%player%&7."
+    applied: "Encantamiento &e%enchant% &7aplicado al jugador &e%player% &7con nivel &e%level%&7."
+
+
+# GUI CONFIGURATION
+enchant-gui:
+  title: "&7Enchant Menu"
+  size: 45
+  items:
+    pickaxe:
+      slot: 10
+      material: diamond_pickaxe
+      name: "%pickaxe_name%"
+      lore:
+        - "%pickaxe_lore%"
+    efficiency:
+      slot: 12
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_efficiency_name%"
+      lore:
+        - "&7Este encantamiento aumenta la velocidad del minado mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_efficiency_current_level% / %enchant_efficiency_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_efficiency_cost_per_level% tokens"
+    fortune:
+      slot: 13
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_fortune_name%"
+      lore:
+        - "&7Este encantamiento aumenta la cantidad de bloques que mina el jugador mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_fortune_current_level% / %enchant_fortune_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_fortune_cost_per_level% tokens"
+    speed:
+      slot: 14
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_speed_name%"
+      lore:
+        - "&7Este encantamiento aumenta la velocidad del jugador mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_speed_current_level% / %enchant_speed_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_speed_cost_per_level% tokens"
+    givemoney:
+      slot: 15
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_givemoney_name%"
+      lore:
+        - "&7Este encantamiento aumenta el dinero del jugador mientras rompa bloques con el pico."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_givemoney_current_level% / %enchant_givemoney_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_givemoney_cost_per_level% tokens"
+    givetoken:
+      slot: 16
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_givetoken_name%"
+      lore:
+        - "&7Este encantamiento aumenta los tokens del jugador mientras rompa bloques con el pico."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_givetoken_current_level% / %enchant_givetoken_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_givetoken_cost_per_level% tokens"
+    explosive:
+      slot: 21
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_explosive_name%"
+      lore:
+        - "&7Este encantamiento aumenta los bloques que rompe el jugador, entre más nivel más bloques rompe."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_explosive_current_level% / %enchant_explosive_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_explosive_cost_per_level% tokens"
+    nuke:
+      slot: 22
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_nuke_name%"
+      lore:
+        - "&7Este encantamiento tiene una probabilidad de romper todos los bloques alrededor de la mina que rompe el jugador."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_nuke_current_level% / %enchant_nuke_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_nuke_cost_per_level% tokens"
+    fly:
+      slot: 23
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_fly_name%"
+      lore:
+        - "&7Este encantamiento hace poder volar al jugador mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_fly_current_level% / %enchant_fly_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_fly_cost_per_level% tokens"
+
+
+locked-menus:
+  - "enchant menu"
 ```
 
 ---
