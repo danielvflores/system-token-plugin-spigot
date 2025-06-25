@@ -70,7 +70,6 @@ public class PlaceholderUtil {
             text = text.replace("%pickaxe_lore%", "");
         }
 
-        // Extra placeholders
         if (extraPlaceholders != null) {
             for (Map.Entry<String, String> entry : extraPlaceholders.entrySet()) {
                 text = text.replace("%" + entry.getKey() + "%", entry.getValue());
@@ -79,8 +78,6 @@ public class PlaceholderUtil {
 
         return text;
     }
-
-    // Sobrecarga para compatibilidad con dos argumentos
     public static String applyPlaceholders(Player player, String text) {
         return applyPlaceholders(player, text, null);
     }

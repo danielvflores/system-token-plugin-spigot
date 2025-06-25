@@ -45,20 +45,28 @@ public class EnchantGUI {
                 ItemStack item = new ItemStack(material);
                 ItemMeta meta = item.getItemMeta();
 
-                // Nombre con placeholders
                 if (itemSec.contains("name")) {
                     String rawName = itemSec.getString("name").replace("&", "§");
                     meta.setDisplayName(PlaceholderUtil.applyPlaceholders(player, rawName));
                 }
 
-                // Lore con placeholders
                 if (itemSec.contains("lore")) {
                     List<String> lore = itemSec.getStringList("lore");
-                    for (int i = 0; i < lore.size(); i++) {
-                        String rawLore = lore.get(i).replace("&", "§");
-                        lore.set(i, PlaceholderUtil.applyPlaceholders(player, rawLore));
+                    java.util.List<String> finalLore = new java.util.ArrayList<>();
+                    for (String line : lore) {
+                        String rawLore = line.replace("&", "§");
+                        if (rawLore.equals("%pickaxe_lore%")) {
+                            ItemStack hand = player.getInventory().getItemInHand();
+                            if (hand != null && hand.hasItemMeta() && hand.getItemMeta().hasLore()) {
+                                for (String pickaxeLoreLine : hand.getItemMeta().getLore()) {
+                                    finalLore.add(pickaxeLoreLine);
+                                }
+                            }
+                        } else {
+                            finalLore.add(PlaceholderUtil.applyPlaceholders(player, rawLore));
+                        }
                     }
-                    meta.setLore(lore);
+                    meta.setLore(finalLore);
                 }
 
                 item.setItemMeta(meta);
