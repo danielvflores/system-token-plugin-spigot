@@ -29,7 +29,7 @@ public class PlaceholderUtil {
         text = text.replace("%token_balance_formatted%", formatted != null ? formatted : "0");
 
         // %enchant_<enchant>_<suffix>%
-        Pattern enchantPattern = Pattern.compile("%enchant_([a-zA-Z0-9_]+)_(current_level|next_level|max_level|name)%");
+        Pattern enchantPattern = Pattern.compile("%enchant_([a-zA-Z0-9_]+)_(current_level|next_level|max_level|name|cost_per_level)%");
         Matcher matcher = enchantPattern.matcher(text);
         while (matcher.find()) {
             String enchantName = matcher.group(1);
@@ -50,7 +50,12 @@ public class PlaceholderUtil {
                     replacement = String.valueOf(maxLevel);
                     break;
                 case "name":
-                    replacement = PrisonEnchantCustom.getInstance().getEnchantmentManager().getEnchantmentName(enchantName);
+                    String name = PrisonEnchantCustom.getInstance().getEnchantmentManager().getEnchantmentName(enchantName);
+                    replacement = name.replaceAll("§[0-9a-fk-or]|&[0-9a-fk-or]", ""); // Elimina colores
+                    break;
+                case "cost_per_level":
+                    BigDecimal currentCost = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentCost(player, enchantName);
+                    replacement = currentCost.toPlainString();
                     break;
             }
             text = text.replace(matcher.group(0), replacement);

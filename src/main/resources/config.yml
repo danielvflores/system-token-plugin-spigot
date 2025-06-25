@@ -161,6 +161,14 @@ enchant-gui:
       name: "%pickaxe_name%"
       lore:
         - "%pickaxe_lore%"
+    speed:
+      slot: 12
+      material: BOOK
+      name: "%enchant_speed_name%"
+      lore:
+        - "&7Este encantamiento aumenta la velocidad del jugador mientras tenga el pico en la mano."
+        - "&f• &7Niveles: %enchant_speed_current_level% / %enchant_speed_max_level%"
+        - "&f• &7Costo por nivel: %enchant_speed_cost_per_level% tokens"
 
 
 locked-menus:
