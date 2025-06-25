@@ -4,6 +4,12 @@ A **Minecraft Spigot 1.8.8 plugin** for a custom token-based economy and pickaxe
 This project is in an **early/incomplete stage** and under active development.
 
 ---
+**⬇️ [Download Latest Release](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)**
+---
+
+> 📁 **All Download links are available at the bottom of this README.**
+
+---
 
 ## 🌟 Features
 
