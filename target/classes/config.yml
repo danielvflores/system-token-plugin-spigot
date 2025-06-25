@@ -18,6 +18,7 @@ pickaxe:
 # Only EXPONENTIAL uses 'factor'.
 # Only PROGRESSIVE_ARITHMETIC uses 'increment'.
 # IMPORTANT: If the model is LINEAR or LOGARITHMIC, the other parameters are ignored.
+# LINEAL IS THE DEFAULT MODEL, IF YOU WANT TO CHANGE IT, JUST CHANGE THE MODEL NAME BELOW.
 model: LINEAL
 
 # ENCHANTS PROPERTIES
@@ -66,7 +67,7 @@ enchants:
     cost-per-level: 1000000
     factor: 1.5
     increment: 500
-  give-token:
+  givetoken:
     display: "&7Recolector de tokens"
     max-level: 20
     price-for-level: 10
@@ -75,7 +76,7 @@ enchants:
     cost-per-level: 10000
     factor: 1.5
     increment: 500
-  give-money:
+  givemoney:
     display: "&7Recolector de dinero"
     max-level: 50
     price-for-level: 30
@@ -192,15 +193,78 @@ enchant-gui:
       name: "%pickaxe_name%"
       lore:
         - "%pickaxe_lore%"
-    speed:
+    efficiency:
       slot: 12
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_efficiency_name%"
+      lore:
+        - "&7Este encantamiento aumenta la velocidad del minado mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_efficiency_current_level% / %enchant_efficiency_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_efficiency_cost_per_level% tokens"
+    fortune:
+      slot: 13
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_fortune_name%"
+      lore:
+        - "&7Este encantamiento aumenta la cantidad de bloques que mina el jugador mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_fortune_current_level% / %enchant_fortune_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_fortune_cost_per_level% tokens"
+    speed:
+      slot: 14
       material: ENCHANTED_BOOK
       name: "&f%enchant_speed_name%"
       lore:
-        - "&7Este encantamiento aumenta la velocidad del jugador mientras setenga el pico en la mano."
+        - "&7Este encantamiento aumenta la velocidad del jugador mientras sostenga el pico en la mano."
         - "&7"
         - "&f• &7Niveles: &f%enchant_speed_current_level% / %enchant_speed_max_level%"
         - "&f• &7Costo por nivel: &f%enchant_speed_cost_per_level% tokens"
+    givemoney:
+      slot: 15
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_givemoney_name%"
+      lore:
+        - "&7Este encantamiento aumenta el dinero del jugador mientras rompa bloques con el pico."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_givemoney_current_level% / %enchant_givemoney_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_givemoney_cost_per_level% tokens"
+    givetoken:
+      slot: 16
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_givetoken_name%"
+      lore:
+        - "&7Este encantamiento aumenta los tokens del jugador mientras rompa bloques con el pico."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_givetoken_current_level% / %enchant_givetoken_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_givetoken_cost_per_level% tokens"
+    explosive:
+      slot: 21
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_explosive_name%"
+      lore:
+        - "&7Este encantamiento aumenta los bloques que rompe el jugador, entre más nivel más bloques rompe."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_explosive_current_level% / %enchant_explosive_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_explosive_cost_per_level% tokens"
+    nuke:
+      slot: 22
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_nuke_name%"
+      lore:
+        - "&7Este encantamiento tiene una probabilidad de romper todos los bloques alrededor de la mina que rompe el jugador."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_nuke_current_level% / %enchant_nuke_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_nuke_cost_per_level% tokens"
+    fly:
+      slot: 23
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_fly_name%"
+      lore:
+        - "&7Este encantamiento hace poder volar al jugador mientras sostenga el pico en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_fly_current_level% / %enchant_fly_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_fly_cost_per_level% tokens"
 
 
 locked-menus:
