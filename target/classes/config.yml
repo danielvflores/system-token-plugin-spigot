@@ -8,7 +8,7 @@ pickaxe:
     - "&a&lEncantamientos:"
     - "&2» {}"
 
-# Encantamientos
+# Encantamientos para prueba
 enchants:
   speed:
     display: "&7Speed"
