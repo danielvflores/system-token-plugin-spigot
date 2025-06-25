@@ -1,5 +1,6 @@
 package com.stp.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -63,7 +64,9 @@ public class EnchantGUI {
                                 }
                             }
                         } else {
-                            finalLore.add(PlaceholderUtil.applyPlaceholders(player, rawLore));
+                            for (String wrapped : wrapLoreLine(PlaceholderUtil.applyPlaceholders(player, rawLore), 40)) {
+                                finalLore.add(wrapped);
+                            }
                         }
                     }
                     meta.setLore(finalLore);
@@ -75,5 +78,31 @@ public class EnchantGUI {
         }
 
         return inv;
+    }
+
+    public static List<String> wrapLoreLine(String line, int maxLength) {
+        List<String> result = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        int colorIndex = 0;
+        String lastColors = "";
+
+        for (String word : line.split(" ")) {
+            // Mantener los colores
+            if (word.contains("§")) {
+                colorIndex = word.lastIndexOf("§");
+                if (colorIndex != -1 && word.length() > colorIndex + 1) {
+                    lastColors = word.substring(colorIndex, colorIndex + 2);
+                }
+            }
+            if (current.length() + word.length() + 1 > maxLength) {
+                result.add(current.toString());
+                current = new StringBuilder(lastColors + word);
+            } else {
+                if (current.length() > 0) current.append(" ");
+                current.append(word);
+            }
+        }
+        if (current.length() > 0) result.add(current.toString());
+        return result;
     }
 }

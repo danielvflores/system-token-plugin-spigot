@@ -69,6 +69,14 @@ public class EnchantmentManager {
         }
     }
 
+    public java.math.BigDecimal getCurrentCost(Player player, String enchantId) {
+        int currentLevel = getCurrentLevel(player, enchantId);
+        org.bukkit.configuration.file.FileConfiguration config = com.stp.core.PrisonEnchantCustom.getInstance().getConfig();
+        String path = "enchants." + enchantId + ".cost-per-level";
+        int costPerLevel = config.getInt(path, 1000);
+        return java.math.BigDecimal.valueOf(costPerLevel).multiply(java.math.BigDecimal.valueOf(currentLevel + 1));
+    }
+
     public boolean isEnchantmentRegistered(String enchantId) {
         return enchants.containsKey(enchantId.toLowerCase());
     }
