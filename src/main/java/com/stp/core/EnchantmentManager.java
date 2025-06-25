@@ -72,9 +72,27 @@ public class EnchantmentManager {
     public java.math.BigDecimal getCurrentCost(Player player, String enchantId) {
         int currentLevel = getCurrentLevel(player, enchantId);
         org.bukkit.configuration.file.FileConfiguration config = com.stp.core.PrisonEnchantCustom.getInstance().getConfig();
+        String model = config.getString("model", "LINEAL").toUpperCase();
         String path = "enchants." + enchantId + ".cost-per-level";
         int costPerLevel = config.getInt(path, 1000);
-        return java.math.BigDecimal.valueOf(costPerLevel).multiply(java.math.BigDecimal.valueOf(currentLevel + 1));
+
+        switch (model) {
+            case "LINEAL":
+                return java.math.BigDecimal.valueOf(costPerLevel).multiply(java.math.BigDecimal.valueOf(currentLevel + 1));
+            case "LOGARITHMIC":
+                double logValue = Math.log(currentLevel + 2);
+                return java.math.BigDecimal.valueOf(costPerLevel * logValue);
+            case "EXPONENTIAL":
+                double factor = config.getDouble("enchants." + enchantId + ".factor", 1.5);
+                double expValue = costPerLevel * Math.pow(factor, currentLevel + 1);
+                return java.math.BigDecimal.valueOf(expValue);
+            case "PROGRESSIVE_ARITHMETIC":
+                int increment = config.getInt("enchants." + enchantId + ".incremento", 500);
+                int price = costPerLevel + (currentLevel) * increment;
+                return java.math.BigDecimal.valueOf(price);
+            default:
+                return java.math.BigDecimal.valueOf(costPerLevel).multiply(java.math.BigDecimal.valueOf(currentLevel + 1));
+        }
     }
 
     public boolean isEnchantmentRegistered(String enchantId) {
