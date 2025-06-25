@@ -7,7 +7,11 @@ This project is in an **early/incomplete stage** and under active development.
 **⬇️ [Download Latest Release](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)**
 ---
 
-> 📁 **All Download links are available at the bottom of this README.**
+---
+**⬇️ [Download Latest Plugin Update from Spigot](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)**
+---
+
+> 📁 **All Download links are available.**
 
 ---
 
@@ -457,11 +461,3 @@ Copyright (c) 2024 Daniel Flores Viera
 
 Contributions are welcome!  
 Open issues or pull requests to help improve the project.
-
----
-
-## 📁 Download
-
-You can download the latest release (SNAPSHOT.jar) from:
-- [GitHub Releases](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)
-- [SpigotMC Resource Page](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)
