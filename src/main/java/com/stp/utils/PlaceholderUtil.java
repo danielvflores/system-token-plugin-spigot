@@ -54,8 +54,7 @@ public class PlaceholderUtil {
                     replacement = name.replaceAll("§[0-9a-fk-or]|&[0-9a-fk-or]", ""); // Elimina colores
                     break;
                 case "cost_per_level":
-                    BigDecimal currentCost = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentCost(player, enchantName);
-                    replacement = currentCost.toPlainString();
+                    replacement = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentCostFormatted(player, enchantName);
                     break;
             }
             text = text.replace(matcher.group(0), replacement);
