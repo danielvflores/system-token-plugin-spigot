@@ -454,5 +454,8 @@ Open issues or pull requests to help improve the project.
 
 ---
 
-## 🔗 Links
-⚒️ [Spigot Page Plugin ](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)
+## 📁 Download
+
+You can download the latest release (SNAPSHOT.jar) from:
+- [GitHub Releases](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)
+- [SpigotMC Resource Page](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)
