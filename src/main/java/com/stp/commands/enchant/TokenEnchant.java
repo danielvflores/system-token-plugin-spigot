@@ -61,23 +61,23 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
+        CustomEnchant enchant = PrisonEnchantCustom.getInstance()
+        .getEnchantmentManager()
+        .createEnchantment(enchantId, level);
+
+         if (enchant == null) {
+            sender.sendMessage(MessageUtils.getMessage("enchant.unknown").replace("%enchant%", enchantId));
+            return true;
+        }
+
         ItemStack item = target.getInventory().getItemInHand();
         if (item == null || item.getType() == Material.AIR) {
             sender.sendMessage(MessageUtils.getMessage("enchant.no-pickaxe"));
             return true;
         }
 
-        if (!Pickaxe.isCustomPickaxe(item)) {
+        if (!enchant.canEnchantItem(item)) {
             sender.sendMessage(MessageUtils.getMessage("enchant.not-custom-pickaxe"));
-            return true;
-        }
-
-        CustomEnchant enchant = PrisonEnchantCustom.getInstance()
-            .getEnchantmentManager()
-            .createEnchantment(enchantId, level);
-
-        if (enchant == null) {
-            sender.sendMessage(MessageUtils.getMessage("enchant.unknown").replace("%enchant%", enchantId));
             return true;
         }
 
@@ -139,11 +139,6 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        if (!Pickaxe.isCustomPickaxe(item)) {
-            sender.sendMessage(MessageUtils.getMessage("enchant.not-custom-pickaxe"));
-            return true;
-        }
-
         int currentLevel = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
         CustomEnchant enchant = PrisonEnchantCustom.getInstance()
             .getEnchantmentManager()
@@ -151,6 +146,11 @@ public class TokenEnchant implements SubCommand {
 
         if (enchant == null) {
             sender.sendMessage(MessageUtils.getMessage("enchant.unknown").replace("%enchant%", enchantId));
+            return true;
+        }
+
+        if (!enchant.canEnchantItem(item)) {
+            sender.sendMessage(MessageUtils.getMessage("enchant.not-custom-pickaxe"));
             return true;
         }
 
@@ -212,11 +212,6 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        if (!Pickaxe.isCustomPickaxe(item)) {
-            sender.sendMessage(MessageUtils.getMessage("enchant.not-custom-pickaxe"));
-            return true;
-        }
-
         int currentLevel = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
         if (currentLevel <= 0) {
             sender.sendMessage(MessageUtils.getMessage("enchant.invalid-range")
@@ -231,6 +226,11 @@ public class TokenEnchant implements SubCommand {
 
         if (enchant == null) {
             sender.sendMessage(MessageUtils.getMessage("enchant.unknown").replace("%enchant%", enchantId));
+            return true;
+        }
+
+        if (!enchant.canEnchantItem(item)) {
+            sender.sendMessage(MessageUtils.getMessage("enchant.not-custom-pickaxe"));
             return true;
         }
 
