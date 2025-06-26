@@ -4,33 +4,34 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import com.stp.core.PrisonEnchantCustom;
 import com.stp.enchants.CustomEnchant;
 
-public class Fly implements CustomEnchant {
-
+public class Strength implements CustomEnchant {
     private final int level;
     private final String displayName;
     private final String pickaxeName;
     private final int maxLevel;
     private final boolean enabled;
 
-    public Fly(int level) {
+    public Strength(int level) {
         this.level = level;
         this.displayName = PrisonEnchantCustom.getInstance().getConfig()
-                .getString("enchants.fly.display", "&7Fly");
+                .getString("enchants.speed.display", "Velocidad");
         this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.fly.max-level", 1);
+                .getInt("enchants.speed.max-level", 3);
         this.enabled = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.fly.enabled", true);
+                .getBoolean("enchants.speed.enabled", true);
         this.pickaxeName = PrisonEnchantCustom.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&f&lPICO &7&l| &a&lINICIAL");
     }
 
     @Override
     public String getId() {
-        return "fly";
+        return "strength";
     }
 
     @Override
@@ -51,19 +52,17 @@ public class Fly implements CustomEnchant {
     @Override
     public void onEnable(Player player, int level) {
         if (!enabled) return;
-        player.setAllowFlight(true);
+        applyEffect(player, level);
     }
 
     @Override
     public void onDisable(Player player) {
-        player.setFlying(false);
-        player.setAllowFlight(false);
+        player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
     }
 
     @Override
     public void applyEffect(Player player, int level) {
-        if (!enabled) return;
-        player.setAllowFlight(true);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, level - 1));
     }
 
     @Override
@@ -92,4 +91,5 @@ public class Fly implements CustomEnchant {
 
         return true;
     }
+    
 }

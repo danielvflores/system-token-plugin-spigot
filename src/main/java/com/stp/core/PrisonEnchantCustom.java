@@ -23,6 +23,7 @@ import com.stp.enchants.impl.GiveMoney;
 import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
 import com.stp.enchants.impl.Speed;
+import com.stp.enchants.impl.Strength;
 import com.stp.listeners.EnchantEffectTask;
 import com.stp.listeners.EnchantGUIListener;
 import com.stp.listeners.PickaxeListener;
@@ -53,7 +54,8 @@ public class PrisonEnchantCustom extends JavaPlugin {
             Fly.class,
             Nuke.class,
             GiveToken.class,
-            GiveMoney.class
+            GiveMoney.class,
+            Strength.class
         };
 
         for (Class<? extends CustomEnchant> enchantClass : enchantClasses) {
