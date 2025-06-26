@@ -1,5 +1,7 @@
 package com.stp.enchants.impl;
 
+import java.util.List;
+
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -76,7 +78,29 @@ public class Efficiency implements CustomEnchant {
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        return enabled && item != null && item.getType().name().endsWith("_PICKAXE");
+        if (!enabled || item == null) return false;
+
+        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+            .getStringList("enchants." + getId() + ".enchants-item-avaible");
+        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+            .getBoolean("enchants." + getId() + ".enchant-strict", false);
+
+        String typeName = item.getType().name();
+
+        boolean typeAllowed = allowedTypes.stream().anyMatch(typeName::endsWith);
+        if (!typeAllowed) return false;
+
+        if (strict) {
+
+            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+                .getString("pickaxe.display-name", "");
+            if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
+            String displayName = item.getItemMeta().getDisplayName();
+
+            return displayName.equals(requiredName.replace("&", "§"));
+        }
+
+        return true;
     }
 
     private void applyVanillaEnchant(ItemStack item, int level) {
