@@ -11,4 +11,6 @@ public interface CustomItem {
     com.stp.enchants.CustomEnchant getCustomEnchantment(ItemStack item, String enchantId);
     ItemStack removeCustomEnchantment(ItemStack item, String enchantId, Player player);
     void refreshLore(ItemStack item, Player player);
+
+    //TESTPUSH
 }
