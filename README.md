@@ -158,6 +158,7 @@ Copy the generated `.jar` from `target/` to your server's `plugins/` folder.
 | `/token enchant <sub> <player> <enchant> <level>` | Manage enchantments (`set`, `nextlevel`, `downlevel`) | - |
 | `/givepickaxe`       | Give yourself the custom pickaxe            | -                  |
 | `/enchantsreload`    | Reload enchantments from config             | `stp.reload`       |
+| `/openenchantgui`    | Open the enchantments GUI                   | -                  |
 
 **Tab-completion** is available for all commands and subcommands.
 
@@ -191,13 +192,35 @@ model: LINEAL
 
 # ENCHANTS PROPERTIES
 enchants:
+
+  # GENERAL
+
+  # POTS
   speed:
     display: "&7Speed"
     max-level: 2
     enabled: true
-    cost-per-level: 2000
+    cost-per-level: 50000
     factor: 1.5 # EXPO
     increment: 500 # P-A
+    enchants-item-avaible:
+      - "_PICKAXE"
+      - "_SWORD"
+    enchant-strict: false
+  
+  strength:
+    display: "&7Strength"
+    max-level: 2
+    enabled: true
+    cost-per-level: 50000
+    factor: 1.5 # EXPO
+    increment: 500 # P-A
+    enchants-item-avaible:
+      - "_SWORD"
+      - "_AXE"
+    enchant-strict: false
+
+  # MINER
   explosive:
     display: "&7Explosive"
     max-level: 50
@@ -206,6 +229,9 @@ enchants:
     cost-per-level: 100000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
   efficiency:
     display: "&7Efficiency"
     max-level: 100
@@ -213,6 +239,9 @@ enchants:
     cost-per-level: 1000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
   fortune:
     display: "&7Fortune"
     max-level: 20
@@ -220,6 +249,9 @@ enchants:
     cost-per-level: 5000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
   fly:
     display: "&7Fly"
     max-level: 1
@@ -227,6 +259,9 @@ enchants:
     cost-per-level: 1000000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
   nuke:
     display: "&7Nuke"
     max-level: 1
@@ -235,6 +270,9 @@ enchants:
     cost-per-level: 1000000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
   givetoken:
     display: "&7Recolector de tokens"
     max-level: 20
@@ -244,6 +282,9 @@ enchants:
     cost-per-level: 10000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
   givemoney:
     display: "&7Recolector de dinero"
     max-level: 50
@@ -253,6 +294,12 @@ enchants:
     cost-per-level: 10000
     factor: 1.5
     increment: 500
+    enchants-item-avaible:
+      - "_PICKAXE"
+    enchant-strict: true
+
+  # PVP
+
 
 # ALLOWEDS
 allowed-blocks:
