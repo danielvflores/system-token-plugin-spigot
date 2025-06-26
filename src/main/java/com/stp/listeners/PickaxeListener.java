@@ -33,6 +33,7 @@ import com.stp.objects.Pickaxe;
 
 public class PickaxeListener implements Listener {
 
+    private final Pickaxe pickaxe = new Pickaxe();
     private final Set<Material> fortuneBlocks = new HashSet<>();
     private final Map<UUID, Long> dropCooldown = new HashMap<>();
     private final PickaxeStorage storage = new PickaxeStorage(PrisonEnchantCustom.getInstance().getDatabaseManager());
@@ -50,7 +51,7 @@ public class PickaxeListener implements Listener {
         ItemStack dropped = event.getItemDrop().getItemStack();
         Player player = event.getPlayer();
 
-        if (!Pickaxe.isCustomPickaxe(dropped)) return;
+        if (!pickaxe.isCustomItem(dropped)) return;
 
         long now = System.currentTimeMillis();
         UUID uuid = player.getUniqueId();
@@ -68,20 +69,20 @@ public class PickaxeListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         for (ItemStack item : event.getDrops()) {
-            if (Pickaxe.isCustomPickaxe(item)) {
+            if (pickaxe.isCustomItem(item)) {
                 storage.savePickaxe(player.getUniqueId(), item.clone());
                 break;
             }
         }
-        event.getDrops().removeIf(Pickaxe::isCustomPickaxe);
+        event.getDrops().removeIf(pickaxe::isCustomItem);
     }
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        ItemStack pickaxe = storage.loadPickaxe(player.getUniqueId());
-        if (pickaxe != null) {
-            player.getInventory().addItem(pickaxe);
+        ItemStack pickaxeItem = storage.loadPickaxe(player.getUniqueId());
+        if (pickaxeItem != null) {
+            player.getInventory().addItem(pickaxeItem);
             storage.deletePickaxe(player.getUniqueId());
         }
     }
@@ -92,7 +93,7 @@ public class PickaxeListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInHand();
 
-        if (!Pickaxe.isCustomPickaxe(item)) return;
+        if (!pickaxe.isCustomItem(item)) return;
 
         Block block = event.getBlock();
         Material blockType = block.getType();
@@ -104,7 +105,7 @@ public class PickaxeListener implements Listener {
         }
 
         for (String enchantId : PrisonEnchantCustom.getInstance().getEnchantmentManager().getRegisteredEnchants()) {
-            int level = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
+            int level = pickaxe.getCustomEnchantmentLevel(item, enchantId);
             if (level <= 0) continue;
 
             CustomEnchant enchant = PrisonEnchantCustom.getInstance().getEnchantmentManager().createEnchantment(enchantId, level);
@@ -140,8 +141,8 @@ public class PickaxeListener implements Listener {
         Player player = event.getPlayer();
         ItemStack newItem = player.getInventory().getItem(event.getNewSlot());
         
-        if (Pickaxe.isCustomPickaxe(newItem)) {
-            int flyLevel = Pickaxe.getCustomEnchantmentLevel(newItem, "fly");
+        if (pickaxe.isCustomItem(newItem)) {
+            int flyLevel = pickaxe.getCustomEnchantmentLevel(newItem, "fly");
             if (flyLevel > 0) {
                 CustomEnchant flyEnchant = PrisonEnchantCustom.getInstance().getEnchantmentManager().createEnchantment("fly", flyLevel);
                 if (flyEnchant != null) {

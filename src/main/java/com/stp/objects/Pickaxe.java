@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
@@ -18,24 +17,25 @@ import com.stp.utils.PlaceholderUtil;
 
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
-public class Pickaxe {
+public class Pickaxe implements CustomItem {
     public static final String PICKAXE_KEY = "custom_pickaxe";
 
-    public static ItemStack create(Player player) {
+    @Override
+    public ItemStack create(Player player) {
         ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta meta = item.getItemMeta();
 
         String rawName = PrisonEnchantCustom.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&3&lCustom Pickaxe");
 
-        String displayName = PlaceholderUtil.applyPlaceholders(player, rawName, new HashMap<String, String>());
+        String displayName = PlaceholderUtil.applyPlaceholders(player, rawName, new HashMap<>());
         meta.setDisplayName(color(displayName));
 
         List<String> loreConfig = PrisonEnchantCustom.getInstance().getConfig().getStringList("pickaxe.lore");
         List<String> lore = new ArrayList<>();
         for (String line : loreConfig) {
             if (!line.contains("{}")) {
-                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<String, String>());
+                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
                 lore.add(color(processed));
             }
         }
@@ -50,13 +50,15 @@ public class Pickaxe {
         return CraftItemStack.asBukkitCopy(nmsItem);
     }
 
-    public static boolean isCustomPickaxe(ItemStack item) {
+    @Override
+    public boolean isCustomItem(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) return false;
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         return nmsItem != null && nmsItem.hasTag() && nmsItem.getTag().getBoolean(PICKAXE_KEY);
     }
 
-    public static ItemStack addCustomEnchantment(ItemStack item, CustomEnchant enchant, Player player) {
+    @Override
+    public ItemStack addCustomEnchantment(ItemStack item, CustomEnchant enchant, Player player) {
         if (item == null || item.getType() == Material.AIR) return item;
 
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
@@ -69,9 +71,10 @@ public class Pickaxe {
         ItemStack bukkitItem = CraftItemStack.asBukkitCopy(nmsItem);
         refreshLore(bukkitItem, player);
         return bukkitItem;
-    }   
+    }
 
-    public static int getCustomEnchantmentLevel(ItemStack item, String enchantId) {
+    @Override
+    public int getCustomEnchantmentLevel(ItemStack item, String enchantId) {
         if (item == null || item.getType() == Material.AIR) return 0;
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         if (nmsItem == null || !nmsItem.hasTag()) return 0;
@@ -79,15 +82,17 @@ public class Pickaxe {
         return tag.hasKey(enchantId.toLowerCase()) ? tag.getInt(enchantId.toLowerCase()) : 0;
     }
 
-    public static CustomEnchant getCustomEnchantment(ItemStack item, String enchantId) {
-        if (!isCustomPickaxe(item)) return null;
+    @Override
+    public CustomEnchant getCustomEnchantment(ItemStack item, String enchantId) {
+        if (!isCustomItem(item)) return null;
         int level = getCustomEnchantmentLevel(item, enchantId);
         return level > 0 ? PrisonEnchantCustom.getInstance()
                 .getEnchantmentManager()
                 .createEnchantment(enchantId, level) : null;
     }
 
-    public static ItemStack removeCustomEnchantment(ItemStack item, String enchantId, Player player) {
+    @Override
+    public ItemStack removeCustomEnchantment(ItemStack item, String enchantId, Player player) {
         if (item == null || item.getType() == Material.AIR) return item;
 
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
@@ -102,7 +107,8 @@ public class Pickaxe {
         return bukkitItem;
     }
 
-    public static void refreshLore(ItemStack item, Player player) {
+    @Override
+    public void refreshLore(ItemStack item, Player player) {
         if (item == null || item.getType() == Material.AIR) return;
 
         ItemMeta meta = item.getItemMeta();
@@ -114,7 +120,7 @@ public class Pickaxe {
 
         for (String enchantId : PrisonEnchantCustom.getInstance()
                 .getEnchantmentManager().getRegisteredEnchants()) {
-            
+
             CustomEnchant enchant = getCustomEnchantment(item, enchantId);
             if (enchant != null && getCustomEnchantmentLevel(item, enchantId) > 0) {
                 String display = PrisonEnchantCustom.getInstance().getConfig()
@@ -128,16 +134,15 @@ public class Pickaxe {
                 if (enchantLore.isEmpty()) continue;
                 for (String enchantLine : enchantLore) {
                     String processed = line.replace("{}", enchantLine);
-                    newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<String, String>())));
+                    newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
                 }
             } else {
-                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<String, String>());
+                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
                 newLore.add(color(processed));
             }
         }
 
         meta.setLore(newLore);
-        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
     }
 

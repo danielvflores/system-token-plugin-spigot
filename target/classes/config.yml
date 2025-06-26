@@ -311,6 +311,15 @@ enchant-gui:
         - "&7"
         - "&f• &7Niveles: &f%enchant_fly_current_level% / %enchant_fly_max_level%"
         - "&f• &7Costo por nivel: &f%enchant_fly_cost_per_level% tokens"
+    strength:
+      slot: 17
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_strength_name%"
+      lore:
+        - "&7Este encantamiento aumenta el daño del jugador mientras sostenga la espada o el hacha en la mano."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_strength_current_level% / %enchant_strength_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_strength_cost_per_level% tokens"
 
 
 locked-menus:

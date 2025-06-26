@@ -20,11 +20,11 @@ public class Strength implements CustomEnchant {
     public Strength(int level) {
         this.level = level;
         this.displayName = PrisonEnchantCustom.getInstance().getConfig()
-                .getString("enchants.speed.display", "Velocidad");
+                .getString("enchants.strength.display", "Fuerza");
         this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.speed.max-level", 3);
+                .getInt("enchants.strength.max-level", 2);
         this.enabled = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.speed.enabled", true);
+                .getBoolean("enchants.strength.enabled", true);
         this.pickaxeName = PrisonEnchantCustom.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&f&lPICO &7&l| &a&lINICIAL");
     }

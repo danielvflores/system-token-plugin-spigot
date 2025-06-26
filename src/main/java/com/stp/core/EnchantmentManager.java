@@ -11,6 +11,7 @@ import com.stp.enchants.CustomEnchant;
 import com.stp.objects.Pickaxe;
 
 public class EnchantmentManager {
+    private final Pickaxe pickaxe = new Pickaxe();
     private final Map<String, Class<? extends CustomEnchant>> enchants = new HashMap<>();
 
     public void registerEnchantment(String id, Class<? extends CustomEnchant> enchantClass) {
@@ -42,7 +43,8 @@ public class EnchantmentManager {
 
     public int getCurrentLevel(Player player, String enchantId) {
         ItemStack item = player.getInventory().getItemInHand();
-        int lvl = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
+        
+        int lvl = pickaxe.getCustomEnchantmentLevel(item, enchantId);
         return lvl;
     }
 
