@@ -66,6 +66,8 @@ public class Fly implements CustomEnchant {
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        return enabled && item != null && item.getType().toString().contains(pickaxeName);
+        return enabled && item != null && (
+            item.getType().name().endsWith("_PICKAXE")
+        );
     }
 }

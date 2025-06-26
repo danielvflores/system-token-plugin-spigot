@@ -76,7 +76,9 @@ public class Fortune implements CustomEnchant {
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        return enabled && item != null && item.getType().name().endsWith("_PICKAXE");
+        return enabled && item != null && (
+            item.getType().name().endsWith("_PICKAXE")
+        );
     }
 
     private void applyVanillaEnchant(ItemStack item, int level) {

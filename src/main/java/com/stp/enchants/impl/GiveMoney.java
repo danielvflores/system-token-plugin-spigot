@@ -95,6 +95,8 @@ public class GiveMoney implements CustomEnchant {
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        return enabled && item != null && item.getType().toString().contains("PICKAXE");
+        return enabled && item != null && (
+            item.getType().name().endsWith("_PICKAXE")
+        );
     }
 }

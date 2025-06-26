@@ -67,7 +67,9 @@ public class Nuke implements CustomEnchant {
 
     @Override
     public boolean canEnchantItem(ItemStack item) {
-        return enabled && item != null && item.getType().toString().contains("PICKAXE");
+        return enabled && item != null && (
+            item.getType().name().endsWith("_PICKAXE")
+        );
     }
 
     public void handleBlockBreak(BlockBreakEvent event, Player player, int level) {
