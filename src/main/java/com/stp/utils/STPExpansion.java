@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
@@ -31,12 +31,12 @@ public class STPExpansion extends PlaceholderExpansion {
 
         // %stp_token_balance% - Returns the player's token balance as a string (1, 10, 100, 1000, 100000000).
         if (identifier.equalsIgnoreCase("token_balance")) {
-            return PrisonEnchantCustom.getInstance().getTokenManager().getTokens(player.getUniqueId()).toPlainString();
+            return SystemTokenEnchant.getInstance().getTokenManager().getTokens(player.getUniqueId()).toPlainString();
         }
 
         // %stp_token_balance_formatted% - Returns the player's token balance formatted with suffixes (1, 10, 100, 1K, 10K, 100K, 1M, etc.).
         if (identifier.equalsIgnoreCase("token_balance_formatted")) {
-            BigDecimal tokens = PrisonEnchantCustom.getInstance().getTokenManager().getTokens(player.getUniqueId());
+            BigDecimal tokens = SystemTokenEnchant.getInstance().getTokenManager().getTokens(player.getUniqueId());
             String formatted = NumberUtils.formatWithSuffix(tokens);
             return formatted != null ? formatted : "0";
         }
@@ -51,8 +51,8 @@ public class STPExpansion extends PlaceholderExpansion {
 
             if (suffix != null) {
                 String enchantName = identifier.substring(8, identifier.length() - suffix.length());
-                int currentLevel = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentLevel(player, enchantName);
-                int maxLevel = PrisonEnchantCustom.getInstance().getEnchantmentManager().getMaxLevel(enchantName);
+                int currentLevel = SystemTokenEnchant.getInstance().getEnchantmentManager().getCurrentLevel(player, enchantName);
+                int maxLevel = SystemTokenEnchant.getInstance().getEnchantmentManager().getMaxLevel(enchantName);
 
                 switch (suffix) {
                     case "_current_level":
@@ -62,7 +62,7 @@ public class STPExpansion extends PlaceholderExpansion {
                     case "_max_level":
                         return String.valueOf(maxLevel);
                     case "_name":
-                        return PrisonEnchantCustom.getInstance().getEnchantmentManager().getEnchantmentName(enchantName);
+                        return SystemTokenEnchant.getInstance().getEnchantmentManager().getEnchantmentName(enchantName);
                 }
             }
         }

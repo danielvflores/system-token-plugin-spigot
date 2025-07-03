@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 
 public class Explosive implements CustomEnchant {
@@ -29,13 +29,13 @@ public class Explosive implements CustomEnchant {
 
     public Explosive(int level) {
         this.level = level;
-        this.displayName = PrisonEnchantCustom.getInstance().getConfig()
+        this.displayName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("enchants.explosive.display", "&7Explosive");
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig()
                 .getInt("enchants.explosive.max-level", 50);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig()
+        this.enabled = SystemTokenEnchant.getInstance().getConfig()
                 .getBoolean("enchants.explosive.enabled", true);
-        this.pickaxeName = PrisonEnchantCustom.getInstance().getConfig()
+        this.pickaxeName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&f&lPICO &7&l| &a&lINICIAL");
     }
 
@@ -72,9 +72,9 @@ public class Explosive implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -84,7 +84,7 @@ public class Explosive implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();
@@ -97,13 +97,13 @@ public class Explosive implements CustomEnchant {
     public void handleBlockBreak(BlockBreakEvent event, Player player, int level) {
         if (!enabled) return;
 
-        double chance = PrisonEnchantCustom.getInstance().getConfig().getDouble("enchants.explosive.chance", 2.0);
+        double chance = SystemTokenEnchant.getInstance().getConfig().getDouble("enchants.explosive.chance", 2.0);
         if (random.nextDouble() < (chance / 100.0)) {
             destroyBlocks(player, event.getBlock(), level);
         }
     }
     private void destroyBlocks(Player player, Block origin, int level) {
-        List<Material> allowedBlocks = PrisonEnchantCustom.getInstance().getAllowedBlocks();
+        List<Material> allowedBlocks = SystemTokenEnchant.getInstance().getAllowedBlocks();
 
         int radius = Math.min((level - 1) / 10 + 1, 3);
         World world = origin.getWorld();

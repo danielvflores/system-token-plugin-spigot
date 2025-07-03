@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.utils.MessageUtils;
 
@@ -24,16 +24,16 @@ public class GiveMoney implements CustomEnchant {
 
     public GiveMoney(int level) {
         this.level = level;
-        this.displayName = PrisonEnchantCustom.getInstance().getConfig()
-                .getString("enchants.give-money.display", "Recolector de dinero");
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.give-money.max-level", 3);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.give-money.enabled", true);
-        this.priceForLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.give-money.price-for-level", 10);
-        this.messageStatus = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.give-money.messageStatus", true);
+        this.displayName = SystemTokenEnchant.getInstance().getConfig()
+                .getString("enchants.givemoney.display", "Recolector de dinero");
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig()
+                .getInt("enchants.givemoney.max-level", 3);
+        this.enabled = SystemTokenEnchant.getInstance().getConfig()
+                .getBoolean("enchants.givemoney.enabled", true);
+        this.priceForLevel = SystemTokenEnchant.getInstance().getConfig()
+                .getInt("enchants.givemoney.price-for-level", 10);
+        this.messageStatus = SystemTokenEnchant.getInstance().getConfig()
+                .getBoolean("enchants.givemoney.messageStatus", true);
 
         if (economy == null) {
             if (Bukkit.getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -44,7 +44,7 @@ public class GiveMoney implements CustomEnchant {
 
     @Override
     public String getId() {
-        return "giveMoney";
+        return "givemoney";
     }
 
     @Override
@@ -99,9 +99,9 @@ public class GiveMoney implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -111,7 +111,7 @@ public class GiveMoney implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();
