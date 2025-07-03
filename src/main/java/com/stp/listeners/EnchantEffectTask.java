@@ -9,41 +9,42 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.objects.Pickaxe;
 
 public class EnchantEffectTask extends BukkitRunnable {
     private final Map<UUID, Map<String, CustomEnchant>> activeEnchantments = new HashMap<>();
+    private final Pickaxe pickaxe = new Pickaxe();
 
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             ItemStack item = player.getInventory().getItemInHand();
-            
-            if (!Pickaxe.isCustomPickaxe(item)) {
+
+            if (!pickaxe.isCustomItem(item)) {
                 clearAllEffects(player);
                 continue;
             }
 
-            for (String enchantId : PrisonEnchantCustom.getInstance()
+            for (String enchantId : SystemTokenEnchant.getInstance()
                     .getEnchantmentManager().getRegisteredEnchants()) {
-                
-                int level = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
+
+                int level = pickaxe.getCustomEnchantmentLevel(item, enchantId);
                 if (level > 0) {
                     CustomEnchant enchant = activeEnchantments
                         .computeIfAbsent(player.getUniqueId(), k -> new HashMap<String, CustomEnchant>())
                         .computeIfAbsent(enchantId, k -> 
-                            PrisonEnchantCustom.getInstance()
+                            SystemTokenEnchant.getInstance()
                                 .getEnchantmentManager()
                                 .createEnchantment(enchantId, level));
-                    
+
                     enchant.applyEffect(player, level);
                 } else {
                     CustomEnchant oldEnchant = activeEnchantments
                         .getOrDefault(player.getUniqueId(), new HashMap<String, CustomEnchant>())
                         .get(enchantId);
-                    
+
                     if (oldEnchant != null) {
                         oldEnchant.onDisable(player);
                         activeEnchantments.get(player.getUniqueId()).remove(enchantId);

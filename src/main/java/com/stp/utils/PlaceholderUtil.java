@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 
 public class PlaceholderUtil {
 
@@ -21,10 +21,10 @@ public class PlaceholderUtil {
         text = text.replace("%player%", player.getName());
 
         // %token_balance%
-        text = text.replace("%token_balance%", PrisonEnchantCustom.getInstance().getTokenManager().getTokens(player.getUniqueId()).toPlainString());
+        text = text.replace("%token_balance%", SystemTokenEnchant.getInstance().getTokenManager().getTokens(player.getUniqueId()).toPlainString());
 
         // %token_balance_formatted%
-        BigDecimal tokens = PrisonEnchantCustom.getInstance().getTokenManager().getTokens(player.getUniqueId());
+        BigDecimal tokens = SystemTokenEnchant.getInstance().getTokenManager().getTokens(player.getUniqueId());
         String formatted = NumberUtils.formatWithSuffix(tokens);
         text = text.replace("%token_balance_formatted%", formatted != null ? formatted : "0");
 
@@ -36,8 +36,8 @@ public class PlaceholderUtil {
             String suffix = matcher.group(2);
             String replacement = "";
 
-            int currentLevel = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentLevel(player, enchantName);
-            int maxLevel = PrisonEnchantCustom.getInstance().getEnchantmentManager().getMaxLevel(enchantName);
+            int currentLevel = SystemTokenEnchant.getInstance().getEnchantmentManager().getCurrentLevel(player, enchantName);
+            int maxLevel = SystemTokenEnchant.getInstance().getEnchantmentManager().getMaxLevel(enchantName);
 
             switch (suffix) {
                 case "current_level":
@@ -50,11 +50,11 @@ public class PlaceholderUtil {
                     replacement = String.valueOf(maxLevel);
                     break;
                 case "name":
-                    String name = PrisonEnchantCustom.getInstance().getEnchantmentManager().getEnchantmentName(enchantName);
+                    String name = SystemTokenEnchant.getInstance().getEnchantmentManager().getEnchantmentName(enchantName);
                     replacement = name.replaceAll("§[0-9a-fk-or]|&[0-9a-fk-or]", ""); // Elimina colores
                     break;
                 case "cost_per_level":
-                    replacement = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentCostFormatted(player, enchantName);
+                    replacement = SystemTokenEnchant.getInstance().getEnchantmentManager().getCurrentCostFormatted(player, enchantName);
                     break;
             }
             text = text.replace(matcher.group(0), replacement);

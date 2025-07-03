@@ -5,7 +5,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 
 public class Fly implements CustomEnchant {
@@ -18,13 +18,13 @@ public class Fly implements CustomEnchant {
 
     public Fly(int level) {
         this.level = level;
-        this.displayName = PrisonEnchantCustom.getInstance().getConfig()
+        this.displayName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("enchants.fly.display", "&7Fly");
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig()
                 .getInt("enchants.fly.max-level", 1);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig()
+        this.enabled = SystemTokenEnchant.getInstance().getConfig()
                 .getBoolean("enchants.fly.enabled", true);
-        this.pickaxeName = PrisonEnchantCustom.getInstance().getConfig()
+        this.pickaxeName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&f&lPICO &7&l| &a&lINICIAL");
     }
 
@@ -70,9 +70,9 @@ public class Fly implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -82,7 +82,7 @@ public class Fly implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();

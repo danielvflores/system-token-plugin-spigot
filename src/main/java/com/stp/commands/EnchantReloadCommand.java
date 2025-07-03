@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.utils.MessageUtils;
 
 public class EnchantReloadCommand implements CommandExecutor {
@@ -13,7 +13,7 @@ public class EnchantReloadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        PrisonEnchantCustom plugin = PrisonEnchantCustom.getInstance();
+        SystemTokenEnchant plugin = SystemTokenEnchant.getInstance();
         plugin.reloadConfig();
         plugin.getEnchantmentManager().clearEnchants();
         new com.stp.core.EnchantmentLoader(plugin).loadEnchantments();

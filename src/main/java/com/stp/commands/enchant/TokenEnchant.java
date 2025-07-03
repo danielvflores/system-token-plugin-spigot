@@ -7,12 +7,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.stp.commands.SubCommand;
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.objects.Pickaxe;
 import com.stp.utils.MessageUtils;
 
 public class TokenEnchant implements SubCommand {
+    private final Pickaxe pickaxe = new Pickaxe();
+
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length < 2) {
@@ -61,7 +63,7 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        CustomEnchant enchant = PrisonEnchantCustom.getInstance()
+        CustomEnchant enchant = SystemTokenEnchant.getInstance()
         .getEnchantmentManager()
         .createEnchantment(enchantId, level);
 
@@ -90,14 +92,14 @@ public class TokenEnchant implements SubCommand {
 
         String msg;
         if (level == 0) {
-            ItemStack newItem = Pickaxe.removeCustomEnchantment(item, enchantId, target);
+            ItemStack newItem = pickaxe.removeCustomEnchantment(item, enchantId, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onDisable(target);
             msg = MessageUtils.getMessage("enchant.removed")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
                 .replace("%player%", playerName);
         } else {
-            ItemStack newItem = Pickaxe.addCustomEnchantment(item, enchant, target);
+            ItemStack newItem = pickaxe.addCustomEnchantment(item, enchant, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onEnable(target, level);
             msg = MessageUtils.getMessage("enchant.applied")
@@ -139,8 +141,8 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        int currentLevel = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
-        CustomEnchant enchant = PrisonEnchantCustom.getInstance()
+        int currentLevel = pickaxe.getCustomEnchantmentLevel(item, enchantId);
+        CustomEnchant enchant = SystemTokenEnchant.getInstance()
             .getEnchantmentManager()
             .createEnchantment(enchantId, currentLevel + 1);
 
@@ -161,17 +163,17 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        int cost = PrisonEnchantCustom.getInstance().getConfig()
+        int cost = SystemTokenEnchant.getInstance().getConfig()
             .getInt("enchants." + enchantId + ".cost-per-level", 1000);
 
-        boolean success = PrisonEnchantCustom.getInstance().getTokenManager()
+        boolean success = SystemTokenEnchant.getInstance().getTokenManager()
             .removeTokens(target.getUniqueId(), java.math.BigDecimal.valueOf(cost));
         if (!success) {
             sender.sendMessage(MessageUtils.getMessage("token.insufficient-tokens"));
             return true;
         }
 
-        ItemStack newItem = Pickaxe.addCustomEnchantment(item, enchant, target);
+        ItemStack newItem = pickaxe.addCustomEnchantment(item, enchant, target);
         target.getInventory().setItemInHand(newItem);
         enchant.onEnable(target, currentLevel + 1);
         String msg = MessageUtils.getMessage("enchant.applied")
@@ -212,7 +214,7 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        int currentLevel = Pickaxe.getCustomEnchantmentLevel(item, enchantId);
+        int currentLevel = pickaxe.getCustomEnchantmentLevel(item, enchantId);
         if (currentLevel <= 0) {
             sender.sendMessage(MessageUtils.getMessage("enchant.invalid-range")
                 .replace("%min%", "0")
@@ -220,7 +222,7 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        CustomEnchant enchant = PrisonEnchantCustom.getInstance()
+        CustomEnchant enchant = SystemTokenEnchant.getInstance()
             .getEnchantmentManager()
             .createEnchantment(enchantId, currentLevel - 1);
 
@@ -234,25 +236,25 @@ public class TokenEnchant implements SubCommand {
             return true;
         }
 
-        int cost = PrisonEnchantCustom.getInstance().getConfig()
+        int cost = SystemTokenEnchant.getInstance().getConfig()
             .getInt("enchants." + enchantId + ".cost-per-level", 1000);
         int refund = (int) Math.round(cost * 0.9);
 
         String msg;
         if (currentLevel - 1 == 0) {
-            ItemStack newItem = Pickaxe.removeCustomEnchantment(item, enchantId, target);
+            ItemStack newItem = pickaxe.removeCustomEnchantment(item, enchantId, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onDisable(target);
-            PrisonEnchantCustom.getInstance().getTokenManager()
+            SystemTokenEnchant.getInstance().getTokenManager()
                 .addTokens(target.getUniqueId(), java.math.BigDecimal.valueOf(refund));
             msg = MessageUtils.getMessage("enchant.removed")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))
                 .replace("%player%", playerName);
         } else {
-            ItemStack newItem = Pickaxe.addCustomEnchantment(item, enchant, target);
+            ItemStack newItem = pickaxe.addCustomEnchantment(item, enchant, target);
             target.getInventory().setItemInHand(newItem);
             enchant.onEnable(target, currentLevel - 1);
-            PrisonEnchantCustom.getInstance().getTokenManager()
+            SystemTokenEnchant.getInstance().getTokenManager()
                 .addTokens(target.getUniqueId(), java.math.BigDecimal.valueOf(refund));
             msg = MessageUtils.getMessage("enchant.applied")
                 .replace("%enchant%", getDisplayNamePlain(enchant.getDisplayName()))

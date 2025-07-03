@@ -2,12 +2,12 @@ package com.stp.utils;
 
 import org.bukkit.ChatColor;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 
 public class MessageUtils {
     public static String getMessage(String key) {
-        String prefix = PrisonEnchantCustom.getInstance().getConfig().getString("message-prefix", "");
-        String msg = PrisonEnchantCustom.getInstance().getConfig().getString("messages." + key, "&cMensaje no encontrado: " + key);
+        String prefix = SystemTokenEnchant.getInstance().getConfig().getString("message-prefix", "");
+        String msg = SystemTokenEnchant.getInstance().getConfig().getString("messages." + key, "&cMensaje no encontrado: " + key);
         return ChatColor.translateAlternateColorCodes('&', prefix + msg);
     }
 

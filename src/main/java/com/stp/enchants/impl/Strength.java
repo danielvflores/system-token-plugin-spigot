@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 
 public class Strength implements CustomEnchant {
@@ -19,13 +19,13 @@ public class Strength implements CustomEnchant {
 
     public Strength(int level) {
         this.level = level;
-        this.displayName = PrisonEnchantCustom.getInstance().getConfig()
-                .getString("enchants.speed.display", "Velocidad");
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.speed.max-level", 3);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.speed.enabled", true);
-        this.pickaxeName = PrisonEnchantCustom.getInstance().getConfig()
+        this.displayName = SystemTokenEnchant.getInstance().getConfig()
+                .getString("enchants.strength.display", "Fuerza");
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig()
+                .getInt("enchants.strength.max-level", 2);
+        this.enabled = SystemTokenEnchant.getInstance().getConfig()
+                .getBoolean("enchants.strength.enabled", true);
+        this.pickaxeName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&f&lPICO &7&l| &a&lINICIAL");
     }
 
@@ -69,9 +69,9 @@ public class Strength implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -81,7 +81,7 @@ public class Strength implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();

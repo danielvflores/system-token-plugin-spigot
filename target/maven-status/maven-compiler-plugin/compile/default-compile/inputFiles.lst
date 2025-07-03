@@ -12,7 +12,7 @@ c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-encha
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\commands\utility\TokenTabCompleter.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\core\EnchantmentLoader.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\core\EnchantmentManager.java
-c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\core\PrisonEnchantCustom.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\core\SystemTokenEnchant.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\db\DatabaseManager.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\db\EnchantConfigManager.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\db\PickaxeStorage.java
@@ -33,6 +33,7 @@ c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-encha
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\listeners\EnchantGUIListener.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\listeners\InvLock.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\listeners\PickaxeListener.java
+c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\objects\CustomItem.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\objects\Pickaxe.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\utils\MessageUtils.java
 c:\Users\datri\OneDrive\Programming\Java\MINECRAFT\STP GITHUB\system-token-enchant\src\main\java\com\stp\utils\MineRegion.java

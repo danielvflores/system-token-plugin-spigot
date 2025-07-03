@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
@@ -12,30 +11,31 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.utils.PlaceholderUtil;
 
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
-public class Pickaxe {
+public class Pickaxe implements CustomItem {
     public static final String PICKAXE_KEY = "custom_pickaxe";
 
-    public static ItemStack create(Player player) {
+    @Override
+    public ItemStack create(Player player) {
         ItemStack item = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemMeta meta = item.getItemMeta();
 
-        String rawName = PrisonEnchantCustom.getInstance().getConfig()
+        String rawName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "&3&lCustom Pickaxe");
 
-        String displayName = PlaceholderUtil.applyPlaceholders(player, rawName, new HashMap<String, String>());
+        String displayName = PlaceholderUtil.applyPlaceholders(player, rawName, new HashMap<>());
         meta.setDisplayName(color(displayName));
 
-        List<String> loreConfig = PrisonEnchantCustom.getInstance().getConfig().getStringList("pickaxe.lore");
+        List<String> loreConfig = SystemTokenEnchant.getInstance().getConfig().getStringList("pickaxe.lore");
         List<String> lore = new ArrayList<>();
         for (String line : loreConfig) {
             if (!line.contains("{}")) {
-                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<String, String>());
+                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
                 lore.add(color(processed));
             }
         }
@@ -50,13 +50,15 @@ public class Pickaxe {
         return CraftItemStack.asBukkitCopy(nmsItem);
     }
 
-    public static boolean isCustomPickaxe(ItemStack item) {
+    @Override
+    public boolean isCustomItem(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) return false;
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         return nmsItem != null && nmsItem.hasTag() && nmsItem.getTag().getBoolean(PICKAXE_KEY);
     }
 
-    public static ItemStack addCustomEnchantment(ItemStack item, CustomEnchant enchant, Player player) {
+    @Override
+    public ItemStack addCustomEnchantment(ItemStack item, CustomEnchant enchant, Player player) {
         if (item == null || item.getType() == Material.AIR) return item;
 
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
@@ -69,9 +71,10 @@ public class Pickaxe {
         ItemStack bukkitItem = CraftItemStack.asBukkitCopy(nmsItem);
         refreshLore(bukkitItem, player);
         return bukkitItem;
-    }   
+    }
 
-    public static int getCustomEnchantmentLevel(ItemStack item, String enchantId) {
+    @Override
+    public int getCustomEnchantmentLevel(ItemStack item, String enchantId) {
         if (item == null || item.getType() == Material.AIR) return 0;
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
         if (nmsItem == null || !nmsItem.hasTag()) return 0;
@@ -79,15 +82,17 @@ public class Pickaxe {
         return tag.hasKey(enchantId.toLowerCase()) ? tag.getInt(enchantId.toLowerCase()) : 0;
     }
 
-    public static CustomEnchant getCustomEnchantment(ItemStack item, String enchantId) {
-        if (!isCustomPickaxe(item)) return null;
+    @Override
+    public CustomEnchant getCustomEnchantment(ItemStack item, String enchantId) {
+        if (!isCustomItem(item)) return null;
         int level = getCustomEnchantmentLevel(item, enchantId);
-        return level > 0 ? PrisonEnchantCustom.getInstance()
+        return level > 0 ? SystemTokenEnchant.getInstance()
                 .getEnchantmentManager()
                 .createEnchantment(enchantId, level) : null;
     }
 
-    public static ItemStack removeCustomEnchantment(ItemStack item, String enchantId, Player player) {
+    @Override
+    public ItemStack removeCustomEnchantment(ItemStack item, String enchantId, Player player) {
         if (item == null || item.getType() == Material.AIR) return item;
 
         net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
@@ -102,42 +107,123 @@ public class Pickaxe {
         return bukkitItem;
     }
 
-    public static void refreshLore(ItemStack item, Player player) {
+    @Override
+    public void refreshLore(ItemStack item, Player player) {
         if (item == null || item.getType() == Material.AIR) return;
 
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
 
-        List<String> baseLore = PrisonEnchantCustom.getInstance().getConfig().getStringList("pickaxe.lore");
-        List<String> newLore = new ArrayList<>();
-        List<String> enchantLore = new ArrayList<>();
-
-        for (String enchantId : PrisonEnchantCustom.getInstance()
-                .getEnchantmentManager().getRegisteredEnchants()) {
+        // Solo para picos personalizados - Usa config pero añade al lore existente
+        if (isCustomItem(item) && item.getType() == Material.DIAMOND_PICKAXE) {
+            List<String> currentLore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
             
+            // Elimina líneas antiguas del template de pickaxe (busca patrones del config)
+            currentLore.removeIf(line -> line != null && (
+                line.contains("Dueño:") || 
+                line.contains("Encantamientos:") || 
+                line.startsWith("§2» ") ||
+                line.startsWith("&2» ")
+            ));
+            
+            List<String> baseLore = SystemTokenEnchant.getInstance().getConfig().getStringList("pickaxe.lore");
+            List<String> enchantLore = new ArrayList<>();
+
+            for (String enchantId : SystemTokenEnchant.getInstance()
+                    .getEnchantmentManager().getRegisteredEnchants()) {
+                CustomEnchant enchant = getCustomEnchantment(item, enchantId);
+                if (enchant != null && getCustomEnchantmentLevel(item, enchantId) > 0) {
+                    String display = SystemTokenEnchant.getInstance().getConfig()
+                            .getString("enchants." + enchantId + ".display", enchant.getDisplayName());
+                    enchantLore.add(color(display) + " " + MessageFormat.format("({0})", toRoman(enchant.getLevel())));
+                }
+            }
+
+            // Añade el template del config al lore existente
+            for (String line : baseLore) {
+                if (line.contains("{}")) {
+                    if (enchantLore.isEmpty()) continue;
+                    for (String enchantLine : enchantLore) {
+                        String processed = line.replace("{}", enchantLine);
+                        currentLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
+                    }
+                } else {
+                    String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
+                    // Solo añade líneas que no estén vacías después del procesamiento
+                    if (processed != null && !processed.trim().isEmpty()) {
+                        currentLore.add(color(processed));
+                    }
+                }
+            }
+
+            meta.setLore(currentLore);
+            item.setItemMeta(meta);
+            return;
+        }
+
+        // Si es espada personalizada - Usa config pero añade al lore existente
+        if (item.getType() == Material.DIAMOND_SWORD) {
+            List<String> currentLore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+            
+            // Elimina líneas antiguas del template de sword
+            currentLore.removeIf(line -> line != null && (
+                line.startsWith("§7") && line.contains("Speed") || 
+                line.startsWith("§7") && line.contains("Strength") ||
+                line.startsWith("&7") && line.contains("Speed") || 
+                line.startsWith("&7") && line.contains("Strength")
+            ));
+            
+            List<String> baseLore = SystemTokenEnchant.getInstance().getConfig().getStringList("sword.lore");
+            List<String> enchantLore = new ArrayList<>();
+
+            for (String enchantId : SystemTokenEnchant.getInstance().getEnchantmentManager().getRegisteredEnchants()) {
+                CustomEnchant enchant = getCustomEnchantment(item, enchantId);
+                if (enchant != null && getCustomEnchantmentLevel(item, enchantId) > 0) {
+                    String display = SystemTokenEnchant.getInstance().getConfig().getString("enchants." + enchantId + ".display", enchant.getDisplayName());
+                    enchantLore.add(color(display) + " " + MessageFormat.format("({0})", toRoman(enchant.getLevel())));
+                }
+            }
+
+            // Añade el template del config al lore existente
+            for (String line : baseLore) {
+                if (line.contains("{}")) {
+                    if (enchantLore.isEmpty()) continue;
+                    for (String enchantLine : enchantLore) {
+                        String processed = line.replace("{}", enchantLine);
+                        currentLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
+                    }
+                } else {
+                    String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
+                    // Solo añade líneas que no estén vacías después del procesamiento
+                    if (processed != null && !processed.trim().isEmpty()) {
+                        currentLore.add(color(processed));
+                    }
+                }
+            }
+
+            meta.setLore(currentLore);
+            item.setItemMeta(meta);
+            return;
+        }
+
+        // Para otros ítems: limpia el lore de duplicados antes de agregar el custom
+        List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+        // Elimina líneas antiguas de custom enchants
+        lore.removeIf(line -> line != null && (line.startsWith("§aCustom Enchants:") || line.startsWith("§a» ")));
+
+        List<String> customLore = new ArrayList<>();
+        for (String enchantId : SystemTokenEnchant.getInstance().getEnchantmentManager().getRegisteredEnchants()) {
             CustomEnchant enchant = getCustomEnchantment(item, enchantId);
             if (enchant != null && getCustomEnchantmentLevel(item, enchantId) > 0) {
-                String display = PrisonEnchantCustom.getInstance().getConfig()
-                        .getString("enchants." + enchantId + ".display", enchant.getDisplayName());
-                enchantLore.add(color(display) + " " + MessageFormat.format("({0})", toRoman(enchant.getLevel())));
+                String display = SystemTokenEnchant.getInstance().getConfig().getString("enchants." + enchantId + ".display", enchant.getDisplayName());
+                customLore.add("§a» " + display + " (" + toRoman(enchant.getLevel()) + ")");
             }
         }
-
-        for (String line : baseLore) {
-            if (line.contains("{}")) {
-                if (enchantLore.isEmpty()) continue;
-                for (String enchantLine : enchantLore) {
-                    String processed = line.replace("{}", enchantLine);
-                    newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<String, String>())));
-                }
-            } else {
-                String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<String, String>());
-                newLore.add(color(processed));
-            }
+        if (!customLore.isEmpty()) {
+            lore.add("§aCustom Enchants:");
+            lore.addAll(customLore);
         }
-
-        meta.setLore(newLore);
-        meta.addItemFlags(org.bukkit.inventory.ItemFlag.HIDE_ENCHANTS);
+        meta.setLore(lore);
         item.setItemMeta(meta);
     }
 

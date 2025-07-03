@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.utils.MessageUtils;
 
@@ -20,21 +20,21 @@ public class GiveToken implements CustomEnchant {
 
     public GiveToken(int level) {
         this.level = level;
-        this.displayName = PrisonEnchantCustom.getInstance().getConfig()
-                .getString("enchants.give-token.display", "Recolector de tokens");
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.give-token.max-level", 3);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.give-token.enabled", true);
-        this.priceForLevel = PrisonEnchantCustom.getInstance().getConfig()
-                .getInt("enchants.give-token.price-for-level", 10);
-        this.messageStatus = PrisonEnchantCustom.getInstance().getConfig()
-                .getBoolean("enchants.give-token.messageStatus", true);
+        this.displayName = SystemTokenEnchant.getInstance().getConfig()
+                .getString("enchants.givetoken.display", "Recolector de tokens");
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig()
+                .getInt("enchants.givetoken.max-level", 3);
+        this.enabled = SystemTokenEnchant.getInstance().getConfig()
+                .getBoolean("enchants.givetoken.enabled", true);
+        this.priceForLevel = SystemTokenEnchant.getInstance().getConfig()
+                .getInt("enchants.givetoken.price-for-level", 10);
+        this.messageStatus = SystemTokenEnchant.getInstance().getConfig()
+                .getBoolean("enchants.givetoken.messageStatus", true);
     }
 
     @Override
     public String getId() {
-        return "giveToken";
+        return "givetoken";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GiveToken implements CustomEnchant {
         if (item == null || !item.getType().toString().contains("PICKAXE")) return;
 
         int tokensToGive = level * priceForLevel;
-        PrisonEnchantCustom.getInstance().getTokenManager().addTokens(
+        SystemTokenEnchant.getInstance().getTokenManager().addTokens(
             player.getUniqueId(),
             BigDecimal.valueOf(tokensToGive)
         );
@@ -90,9 +90,9 @@ public class GiveToken implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -102,7 +102,7 @@ public class GiveToken implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();

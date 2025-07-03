@@ -18,7 +18,8 @@ public class GivePickaxeCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        player.getInventory().addItem(Pickaxe.create(player));
+        Pickaxe pickaxe = new Pickaxe();
+        player.getInventory().addItem(pickaxe.create(player));
         player.sendMessage(MessageUtils.getMessage("pickaxe.received"));
         return true;
     }

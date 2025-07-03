@@ -9,10 +9,10 @@ import java.util.logging.Level;
 import com.stp.enchants.CustomEnchant;
 
 public class EnchantmentLoader {
-    private final PrisonEnchantCustom plugin;
+    private final SystemTokenEnchant plugin;
     private final File enchantsFolder;
 
-    public EnchantmentLoader(PrisonEnchantCustom plugin) {
+    public EnchantmentLoader(SystemTokenEnchant plugin) {
         this.plugin = plugin;
         this.enchantsFolder = new File(plugin.getDataFolder(), "enchants");
         if (!enchantsFolder.exists()) enchantsFolder.mkdirs();

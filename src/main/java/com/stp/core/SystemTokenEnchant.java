@@ -29,8 +29,8 @@ import com.stp.listeners.EnchantGUIListener;
 import com.stp.listeners.PickaxeListener;
 import com.stp.utils.STPExpansion;
 
-public class PrisonEnchantCustom extends JavaPlugin {
-    private static PrisonEnchantCustom instance;
+public class SystemTokenEnchant extends JavaPlugin {
+    private static SystemTokenEnchant instance;
     private TokenStorage databaseManager;
     private TokenManager tokenManager;
     private EnchantmentManager enchantmentManager;
@@ -103,7 +103,7 @@ public class PrisonEnchantCustom extends JavaPlugin {
         if (databaseManager != null) databaseManager.close();
     }
 
-    public static PrisonEnchantCustom getInstance() { return instance; }
+    public static SystemTokenEnchant getInstance() { return instance; }
     public TokenStorage getDatabaseManager() { return databaseManager; }
     public TokenManager getTokenManager() { return tokenManager; }
     public EnchantmentManager getEnchantmentManager() { return enchantmentManager; }
