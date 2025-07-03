@@ -13,7 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.gui.EnchantGUI;
 import com.stp.objects.Pickaxe;
@@ -29,7 +29,7 @@ public class EnchantGUIListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         Inventory inv = event.getInventory();
 
-        String guiTitle = PrisonEnchantCustom.getInstance().getConfig().getString("enchant-gui.title", "Enchant Menu").replace('&', '§');
+        String guiTitle = SystemTokenEnchant.getInstance().getConfig().getString("enchant-gui.title", "Enchant Menu").replace('&', '§');
         if (!inv.getTitle().equals(guiTitle)) return;
 
         event.setCancelled(true);
@@ -72,7 +72,7 @@ public class EnchantGUIListener implements Listener {
 
                 Pickaxe pickaxe = new Pickaxe();
                 int currentLevel = pickaxe.getCustomEnchantmentLevel(item, enchantId);
-                CustomEnchant enchant = PrisonEnchantCustom.getInstance().getEnchantmentManager().createEnchantment(enchantId, currentLevel + 1);
+                CustomEnchant enchant = SystemTokenEnchant.getInstance().getEnchantmentManager().createEnchantment(enchantId, currentLevel + 1);
 
                 if (enchant == null) {
                     player.sendMessage(MessageUtils.getMessage("enchant.unknown").replace("%enchant%", enchantId));
@@ -91,8 +91,8 @@ public class EnchantGUIListener implements Listener {
                     return;
                 }
 
-                java.math.BigDecimal cost = PrisonEnchantCustom.getInstance().getEnchantmentManager().getCurrentCost(player, enchantId);
-                boolean success = PrisonEnchantCustom.getInstance().getTokenManager().removeTokens(player.getUniqueId(), cost);
+                java.math.BigDecimal cost = SystemTokenEnchant.getInstance().getEnchantmentManager().getCurrentCost(player, enchantId);
+                boolean success = SystemTokenEnchant.getInstance().getTokenManager().removeTokens(player.getUniqueId(), cost);
                 if (!success) {
                     player.sendMessage(MessageUtils.getMessage("token.insufficient-tokens"));
                     return;
@@ -107,7 +107,7 @@ public class EnchantGUIListener implements Listener {
                         .replace("%level%", String.valueOf(currentLevel + 1));
                 player.sendMessage(msg);
 
-                Bukkit.getScheduler().runTaskLater(PrisonEnchantCustom.getInstance(), () -> {
+                Bukkit.getScheduler().runTaskLater(SystemTokenEnchant.getInstance(), () -> {
                     player.openInventory(EnchantGUI.createEnchantGUI(player, page));
                 }, 2L);
                 return;
@@ -118,15 +118,15 @@ public class EnchantGUIListener implements Listener {
     // Devuelve la lista de encantamientos compatibles para el ítem en mano del jugador
     private List<String> getCompatibleEnchants(Player player) {
         List<String> compatibleEnchants = new ArrayList<>();
-        ConfigurationSection itemsSection = PrisonEnchantCustom.getInstance().getConfig().getConfigurationSection("enchant-gui.items");
+        ConfigurationSection itemsSection = SystemTokenEnchant.getInstance().getConfig().getConfigurationSection("enchant-gui.items");
         ItemStack hand = player.getInventory().getItemInHand();
 
         if (itemsSection != null) {
             for (String key : itemsSection.getKeys(false)) {
-                if (PrisonEnchantCustom.getInstance().getConfig().isConfigurationSection("enchants." + key)) {
-                    List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+                if (SystemTokenEnchant.getInstance().getConfig().isConfigurationSection("enchants." + key)) {
+                    List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
                             .getStringList("enchants." + key + ".enchants-item-avaible");
-                    boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+                    boolean strict = SystemTokenEnchant.getInstance().getConfig()
                             .getBoolean("enchants." + key + ".enchant-strict", false);
 
                     String typeName = hand != null ? hand.getType().name() : "";
@@ -135,7 +135,7 @@ public class EnchantGUIListener implements Listener {
                     boolean show = false;
                     if (typeAllowed) {
                         if (strict) {
-                            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+                            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                                     .getString("pickaxe.display-name", "");
                             if (hand != null && hand.hasItemMeta() && hand.getItemMeta().hasDisplayName()) {
                                 String displayName = hand.getItemMeta().getDisplayName();

@@ -21,30 +21,21 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.db.PickaxeStorage;
 import com.stp.enchants.CustomEnchant;
 import com.stp.enchants.impl.Explosive;
-import com.stp.enchants.impl.Fortune;
 import com.stp.enchants.impl.GiveMoney;
 import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
 import com.stp.objects.Pickaxe;
+import com.stp.utils.MessageUtils;
 
 public class PickaxeListener implements Listener {
 
     private final Pickaxe pickaxe = new Pickaxe();
-    private final Set<Material> fortuneBlocks = new HashSet<>();
     private final Map<UUID, Long> dropCooldown = new HashMap<>();
-    private final PickaxeStorage storage = new PickaxeStorage(PrisonEnchantCustom.getInstance().getDatabaseManager());
-
-    public PickaxeListener() {
-        List<String> blockNames = PrisonEnchantCustom.getInstance().getConfig().getStringList("fortune-blocks");
-        for (String name : blockNames) {
-            Material mat = Material.matchMaterial(name.toUpperCase());
-            if (mat != null) fortuneBlocks.add(mat);
-        }
-    }
+    private final PickaxeStorage storage = new PickaxeStorage(SystemTokenEnchant.getInstance().getDatabaseManager());
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
@@ -59,7 +50,7 @@ public class PickaxeListener implements Listener {
         if (!dropCooldown.containsKey(uuid) || now - dropCooldown.get(uuid) > 2000) {
             event.setCancelled(true);
             dropCooldown.put(uuid, now);
-            player.sendMessage("\u00a7cPresiona Q nuevamente en menos de 2 segundos para tirar el pico.");
+            player.sendMessage(MessageUtils.getMessage("pickaxe.drop-item"));
         } else {
             dropCooldown.remove(uuid);
         }
@@ -98,17 +89,18 @@ public class PickaxeListener implements Listener {
         Block block = event.getBlock();
         Material blockType = block.getType();
 
-        List<Material> allowedBlocks = PrisonEnchantCustom.getInstance().getAllowedBlocks();
+        List<Material> allowedBlocks = SystemTokenEnchant.getInstance().getAllowedBlocks();
         if (!allowedBlocks.contains(blockType)) {
             event.setCancelled(true);
+            player.sendMessage(MessageUtils.getMessage("pickaxe.invalid-block"));
             return;
         }
 
-        for (String enchantId : PrisonEnchantCustom.getInstance().getEnchantmentManager().getRegisteredEnchants()) {
+        for (String enchantId : SystemTokenEnchant.getInstance().getEnchantmentManager().getRegisteredEnchants()) {
             int level = pickaxe.getCustomEnchantmentLevel(item, enchantId);
             if (level <= 0) continue;
 
-            CustomEnchant enchant = PrisonEnchantCustom.getInstance().getEnchantmentManager().createEnchantment(enchantId, level);
+            CustomEnchant enchant = SystemTokenEnchant.getInstance().getEnchantmentManager().createEnchantment(enchantId, level);
             if (enchant == null) continue;
 
             if (enchant instanceof Explosive) {
@@ -121,10 +113,6 @@ public class PickaxeListener implements Listener {
                 ((Nuke) enchant).handleBlockBreak(event, player, level);
             }
 
-            if (enchant instanceof Fortune && fortuneBlocks.contains(blockType)) {
-                ((Fortune) enchant).applyEffect(player, level);
-            }
-
             if (enchant instanceof GiveToken) {
                 ((GiveToken) enchant).handleBlockBreak(player, item);
             }
@@ -135,27 +123,32 @@ public class PickaxeListener implements Listener {
     }
 
     private final Set<UUID> noFallDamage = new HashSet<>();
+    private final Set<UUID> pluginFly = new HashSet<>();
 
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
         ItemStack newItem = player.getInventory().getItem(event.getNewSlot());
-        
+
         if (pickaxe.isCustomItem(newItem)) {
             int flyLevel = pickaxe.getCustomEnchantmentLevel(newItem, "fly");
             if (flyLevel > 0) {
-                CustomEnchant flyEnchant = PrisonEnchantCustom.getInstance().getEnchantmentManager().createEnchantment("fly", flyLevel);
+                CustomEnchant flyEnchant = SystemTokenEnchant.getInstance().getEnchantmentManager().createEnchantment("fly", flyLevel);
                 if (flyEnchant != null) {
                     flyEnchant.onEnable(player, flyLevel);
+                    pluginFly.add(player.getUniqueId());
                 }
                 return;
             }
         }
 
-        CustomEnchant flyEnchant = PrisonEnchantCustom.getInstance().getEnchantmentManager().createEnchantment("fly", 1);
-        if (flyEnchant != null) {
-            flyEnchant.onDisable(player);
-            noFallDamage.add(player.getUniqueId());
+        // Solo desactiva el fly si fue dado por tu plugin
+        if (pluginFly.remove(player.getUniqueId())) {
+            CustomEnchant flyEnchant = SystemTokenEnchant.getInstance().getEnchantmentManager().createEnchantment("fly", 1);
+            if (flyEnchant != null) {
+                flyEnchant.onDisable(player);
+                noFallDamage.add(player.getUniqueId());
+            }
         }
     }
 

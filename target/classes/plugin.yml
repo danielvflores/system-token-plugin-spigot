@@ -1,20 +1,23 @@
-name: PrisonEnchantCustom
-main: com.stp.core.PrisonEnchantCustom
-version: 1.0.2
+name: SystemTokenEnchant
+main: com.stp.core.SystemTokenEnchant
+version: 1.1
 commands:
   token:
-    description: Main Command
+    description: Branch Command
     usage: /token
-    permission: stp.token
+    permission: stp.token.use
   givepickaxe:
     description: Command for create User's Pickaxe.
     usage: /givepickaxe
     permission: stp.givepickaxe
+    aliases: [gp, givep, pickaxe, kitpickaxe]
   enchantsreload:
     description: Reload .yml.
     usage: /enchantsreload
     permission: stp.reload
+    aliases: [ereload, enchantreload, stpreload]
   openenchantgui:
     description: Open Enchant GUI.
     usage: /openenchantgui
     permission: stp.openenchantgui
+    aliases: [egui, enchantgui, ogui, enchant]

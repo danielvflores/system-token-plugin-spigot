@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.objects.Pickaxe;
 
@@ -27,7 +27,7 @@ public class EnchantEffectTask extends BukkitRunnable {
                 continue;
             }
 
-            for (String enchantId : PrisonEnchantCustom.getInstance()
+            for (String enchantId : SystemTokenEnchant.getInstance()
                     .getEnchantmentManager().getRegisteredEnchants()) {
 
                 int level = pickaxe.getCustomEnchantmentLevel(item, enchantId);
@@ -35,7 +35,7 @@ public class EnchantEffectTask extends BukkitRunnable {
                     CustomEnchant enchant = activeEnchantments
                         .computeIfAbsent(player.getUniqueId(), k -> new HashMap<String, CustomEnchant>())
                         .computeIfAbsent(enchantId, k -> 
-                            PrisonEnchantCustom.getInstance()
+                            SystemTokenEnchant.getInstance()
                                 .getEnchantmentManager()
                                 .createEnchantment(enchantId, level));
 

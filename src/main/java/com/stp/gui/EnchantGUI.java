@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 
 public class EnchantGUI {
     private static final int[] ENCHANT_SLOTS = {12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 30, 31, 32, 33, 34};
@@ -21,7 +21,7 @@ public class EnchantGUI {
     }
 
     public static Inventory createEnchantGUI(Player player, int page) {
-        ConfigurationSection guiSection = PrisonEnchantCustom.getInstance().getConfig().getConfigurationSection("enchant-gui");
+        ConfigurationSection guiSection = SystemTokenEnchant.getInstance().getConfig().getConfigurationSection("enchant-gui");
         if (guiSection == null) {
             return Bukkit.createInventory(null, 54, "Enchant Menu");
         }
@@ -41,10 +41,10 @@ public class EnchantGUI {
         List<String> compatibleEnchants = new ArrayList<>();
         if (itemsSection != null) {
             for (String key : itemsSection.getKeys(false)) {
-                if (PrisonEnchantCustom.getInstance().getConfig().isConfigurationSection("enchants." + key)) {
-                    List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+                if (SystemTokenEnchant.getInstance().getConfig().isConfigurationSection("enchants." + key)) {
+                    List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
                         .getStringList("enchants." + key + ".enchants-item-avaible");
-                    boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+                    boolean strict = SystemTokenEnchant.getInstance().getConfig()
                         .getBoolean("enchants." + key + ".enchant-strict", false);
 
                     String typeName = hand != null ? hand.getType().name() : "";
@@ -53,7 +53,7 @@ public class EnchantGUI {
                     boolean show = false;
                     if (typeAllowed) {
                         if (strict) {
-                            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+                            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                                 .getString("pickaxe.display-name", "");
                             if (hand != null && hand.hasItemMeta() && hand.getItemMeta().hasDisplayName()) {
                                 String displayName = hand.getItemMeta().getDisplayName();

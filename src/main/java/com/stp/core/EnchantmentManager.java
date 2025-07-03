@@ -73,7 +73,7 @@ public class EnchantmentManager {
 
     public java.math.BigDecimal getCurrentCost(Player player, String enchantId) {
         int currentLevel = getCurrentLevel(player, enchantId);
-        org.bukkit.configuration.file.FileConfiguration config = com.stp.core.PrisonEnchantCustom.getInstance().getConfig();
+        org.bukkit.configuration.file.FileConfiguration config = com.stp.core.SystemTokenEnchant.getInstance().getConfig();
         String model = config.getString("model", "LINEAL").toUpperCase();
         String path = "enchants." + enchantId + ".cost-per-level";
         int costPerLevel = config.getInt(path, 1000);

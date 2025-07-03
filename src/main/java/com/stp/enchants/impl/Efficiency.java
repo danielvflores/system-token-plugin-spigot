@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 
 public class Efficiency implements CustomEnchant {
@@ -20,13 +20,13 @@ public class Efficiency implements CustomEnchant {
     public Efficiency(int level) {
         this.level = level;
 
-        String coloredName = PrisonEnchantCustom.getInstance().getConfig()
+        String coloredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("enchants.efficiency.display", "&7Efficiency");
         this.displayName = coloredName;
         this.displayNameRaw = stripColorCodes(coloredName);
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig()
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig()
                 .getInt("enchants.efficiency.max-level", 100);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig()
+        this.enabled = SystemTokenEnchant.getInstance().getConfig()
                 .getBoolean("enchants.efficiency.enabled", true);
     }
 
@@ -80,9 +80,9 @@ public class Efficiency implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -92,7 +92,7 @@ public class Efficiency implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();

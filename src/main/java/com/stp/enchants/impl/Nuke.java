@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.stp.core.PrisonEnchantCustom;
+import com.stp.core.SystemTokenEnchant;
 import com.stp.enchants.CustomEnchant;
 import com.stp.utils.MessageUtils;
 import com.stp.utils.MineRegion;
@@ -31,9 +31,9 @@ public class Nuke implements CustomEnchant {
 
     public Nuke(int level) {
         this.level = level;
-        this.displayName = PrisonEnchantCustom.getInstance().getConfig().getString("enchants.nuke.display", "&cNuke");
-        this.maxLevel = PrisonEnchantCustom.getInstance().getConfig().getInt("enchants.nuke.max-level", 1);
-        this.enabled = PrisonEnchantCustom.getInstance().getConfig().getBoolean("enchants.nuke.enabled", true);
+        this.displayName = SystemTokenEnchant.getInstance().getConfig().getString("enchants.nuke.display", "&cNuke");
+        this.maxLevel = SystemTokenEnchant.getInstance().getConfig().getInt("enchants.nuke.max-level", 1);
+        this.enabled = SystemTokenEnchant.getInstance().getConfig().getBoolean("enchants.nuke.enabled", true);
     }
 
     @Override
@@ -69,9 +69,9 @@ public class Nuke implements CustomEnchant {
     public boolean canEnchantItem(ItemStack item) {
         if (!enabled || item == null) return false;
 
-        List<String> allowedTypes = PrisonEnchantCustom.getInstance().getConfig()
+        List<String> allowedTypes = SystemTokenEnchant.getInstance().getConfig()
             .getStringList("enchants." + getId() + ".enchants-item-avaible");
-        boolean strict = PrisonEnchantCustom.getInstance().getConfig()
+        boolean strict = SystemTokenEnchant.getInstance().getConfig()
             .getBoolean("enchants." + getId() + ".enchant-strict", false);
 
         String typeName = item.getType().name();
@@ -81,7 +81,7 @@ public class Nuke implements CustomEnchant {
 
         if (strict) {
 
-            String requiredName = PrisonEnchantCustom.getInstance().getConfig()
+            String requiredName = SystemTokenEnchant.getInstance().getConfig()
                 .getString("pickaxe.display-name", "");
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return false;
             String displayName = item.getItemMeta().getDisplayName();
@@ -95,7 +95,7 @@ public class Nuke implements CustomEnchant {
     public void handleBlockBreak(BlockBreakEvent event, Player player, int level) {
         if (!enabled || level <= 0) return;
 
-        double chance = PrisonEnchantCustom.getInstance().getConfig().getDouble("enchants.nuke.chance", 0.1);
+        double chance = SystemTokenEnchant.getInstance().getConfig().getDouble("enchants.nuke.chance", 0.1);
 
         if (random.nextDouble() < (chance / 100.0)) {
             MineRegion region = WorldGuardUtils.getMineRegion(event.getBlock());
@@ -125,7 +125,7 @@ public class Nuke implements CustomEnchant {
     private void nukeMine(Player player, World world, MineRegion region) {
         isNuking.set(true);
 
-        List<Material> allowedBlocks = PrisonEnchantCustom.getInstance().getAllowedBlocks();
+        List<Material> allowedBlocks = SystemTokenEnchant.getInstance().getAllowedBlocks();
         ItemStack tool = player.getInventory().getItemInHand();
 
         for (int x = region.getMinX(); x <= region.getMaxX(); x++) {
