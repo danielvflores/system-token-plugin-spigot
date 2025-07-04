@@ -132,17 +132,24 @@ For any questions or feedback, feel free to contact me on Discord: `@danielvflor
 
 ## 🖼️ Preview
 
-**Pickaxe with current enchantments (BETA 1.0.1):**
-![Pickaxe Preview](https://i.imgur.com/AuxgCtv.png)
+**Example for Sword with enchants using PlayerKits2 (STABLE 1.1.0):**
+![PlayerKits2 Sword Example](https://i.imgur.com/uklWhg8.png)
 
-**EnchantGUI menu (native to the plugin, BETA 1.0.2):**
-![EnchantGUIMenu Preview](https://i.imgur.com/VVasNZz.png)
+**EnchantGUI menu showing available enchants to unlock to Sword (STABLE 1.1.0):**
+![Sword EnchantGUI Preview](https://i.imgur.com/oENOyD8.png)
+
+**EnchantGUI menu showing available enchants to unlock (BETA 1.0.2):**
+![EnchantsfromEnchantGUI Preview](https://i.imgur.com/wOzCWPe.png)
 
 **EnchantGUI menu showing current pickaxe's enchants (BETA 1.0.2):**
 ![PickaxeEnchantGUI Preview](https://i.imgur.com/tyA91aE.png)
 
-**EnchantGUI menu showing available enchants to unlock (BETA 1.0.2):**
-![EnchantsfromEnchantGUI Preview](https://i.imgur.com/wOzCWPe.png)
+**EnchantGUI menu (native to the plugin, BETA 1.0.2):**
+![EnchantGUIMenu Preview](https://i.imgur.com/VVasNZz.png)
+
+**Pickaxe with current enchantments (BETA 1.0.1):**
+![Pickaxe Preview](https://i.imgur.com/AuxgCtv.png)
+
 
 ---
 
