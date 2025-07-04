@@ -1,6 +1,6 @@
 name: SystemTokenEnchant
 main: com.stp.core.SystemTokenEnchant
-version: 1.1
+version: 1.1.0
 commands:
   token:
     description: Branch Command
@@ -21,3 +21,4 @@ commands:
     usage: /openenchantgui
     permission: stp.openenchantgui
     aliases: [egui, enchantgui, ogui, enchant]
+Loading chunk 22095 failed. (error: https://discord.com/assets/dd93690adf6e7292.js
