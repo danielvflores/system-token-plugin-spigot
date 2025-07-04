@@ -20,13 +20,24 @@ This project is in an **early/incomplete stage** and under active development.
 **🔗 Plugin Compatibility** - Compatible with AutoSell and PlayerKits2 (recommended for kit creation due to NBT support)  
 **⚙️ Robust Configuration** - All commands properly registered with permissions and tab-completion
 
-## 📦 Installation & Setup
+## 📦 Installation & Setup}
 
 1. **Download** the latest `.jar` file from the releases section
 2. **Place** the plugin in your server's `plugins/` folder
 3. **Restart** your server to generate the config files
 4. **Configure** the `config.yml` file to your liking
 5. **Restart** again or use `/enchantsreload` to apply changes
+
+---
+
+**⬇️ [Download Latest Release](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)**
+
+**⬇️ [Download Latest Plugin Update from Spigot](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)**
+
+> 📁 **All Download links are available.**
+
+---
+
 
 ### Recommended Plugin Setup
 For the best experience, install these compatible plugins:
@@ -37,13 +48,6 @@ For the best experience, install these compatible plugins:
 - **WorldGuard** (for region support)
 
 For any questions or feedback, feel free to contact me on Discord: `@danielvflores` or [here](https://discord.com/users/835022014795874324)
-
----
-**⬇️ [Download Latest Release](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)**
-
-**⬇️ [Download Latest Plugin Update from Spigot](https://www.spigotmc.org/resources/system-token-plugin-stp.126264/)**
-
-> 📁 **All Download links are available.**
 
 ---
 
