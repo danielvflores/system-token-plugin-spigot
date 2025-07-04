@@ -106,7 +106,13 @@ public class GiveMoney implements CustomEnchant {
 
         String typeName = item.getType().name();
 
-        boolean typeAllowed = allowedTypes.stream().anyMatch(typeName::endsWith);
+        boolean typeAllowed = false;
+        for (String allowedType : allowedTypes) {
+            if (typeName.endsWith(allowedType)) {
+                typeAllowed = true;
+                break;
+            }
+        }
         if (!typeAllowed) return false;
 
         if (strict) {

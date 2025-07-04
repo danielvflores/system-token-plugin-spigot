@@ -23,7 +23,7 @@ public class TokenRemove implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("token.remove")) {
+        if (!sender.hasPermission("stp.token.remove")) {
             sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
             return true;
         }

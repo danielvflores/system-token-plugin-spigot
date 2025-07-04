@@ -1,5 +1,6 @@
 package com.stp.listeners;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -59,13 +60,14 @@ public class PickaxeListener implements Listener {
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
+        List<ItemStack> toRemove = new ArrayList<>();
         for (ItemStack item : event.getDrops()) {
             if (pickaxe.isCustomItem(item)) {
                 storage.savePickaxe(player.getUniqueId(), item.clone());
-                break;
+                toRemove.add(item);
             }
         }
-        event.getDrops().removeIf(pickaxe::isCustomItem);
+        event.getDrops().removeAll(toRemove);
     }
 
     @EventHandler
@@ -142,7 +144,6 @@ public class PickaxeListener implements Listener {
             }
         }
 
-        // Solo desactiva el fly si fue dado por tu plugin
         if (pluginFly.remove(player.getUniqueId())) {
             CustomEnchant flyEnchant = SystemTokenEnchant.getInstance().getEnchantmentManager().createEnchantment("fly", 1);
             if (flyEnchant != null) {

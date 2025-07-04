@@ -1,6 +1,7 @@
 package com.stp.core;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.JarFile;
@@ -19,7 +20,12 @@ public class EnchantmentLoader {
     }
 
     public void loadEnchantments() {
-        File[] jarFiles = enchantsFolder.listFiles((dir, name) -> name.endsWith(".jar"));
+        File[] jarFiles = enchantsFolder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jar");
+            }
+        });
         if (jarFiles == null) return;
 
         for (File jarFile : jarFiles) {

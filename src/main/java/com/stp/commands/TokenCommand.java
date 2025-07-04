@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.stp.commands.economy.TokenAdd;
 import com.stp.commands.economy.TokenBalance;
@@ -14,6 +15,7 @@ import com.stp.commands.economy.TokenSet;
 import com.stp.commands.enchant.TokenEnchant;
 import com.stp.commands.test.TokenCheckConsole;
 import com.stp.economy.TokenManager;
+import com.stp.utils.MessageUtils;
 
 public class TokenCommand implements CommandExecutor {
 
@@ -48,8 +50,11 @@ public class TokenCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage("§cUsa /token help");
-            return true;
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(MessageUtils.getMessage("token.only-player"));
+                return true;
+            }
+            return new TokenBalance(tokenManager).execute(sender, args);
         }
 
         String subcommandName = args[0].toLowerCase();

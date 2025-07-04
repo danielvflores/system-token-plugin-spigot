@@ -12,7 +12,6 @@ import com.stp.core.SystemTokenEnchant;
 
 public class PlaceholderUtil {
 
-    // Método principal con Map
     public static String applyPlaceholders(Player player, String text, Map<String, String> extraPlaceholders) {
         if (text == null) return null;
         if (player == null) return text;

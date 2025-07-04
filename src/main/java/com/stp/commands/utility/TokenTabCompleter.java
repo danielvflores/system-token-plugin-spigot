@@ -70,7 +70,7 @@ public class TokenTabCompleter implements TabCompleter {
             return playerNames;
         }
         else if (args.length == 4 && args[0].equalsIgnoreCase("enchant")) {
-            return Arrays.asList("speed", "explosive", "efficiency", "fortune", "fly", "nuke", "give-token");
+            return Arrays.asList("speed", "explosive", "efficiency", "fortune", "fly", "nuke", "givetoken", "givemoney");
         }
         return Collections.emptyList();
     }
