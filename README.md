@@ -9,9 +9,8 @@ This project is in an **early/incomplete stage** and under active development.
 - **Minecraft Version**: Spigot 1.8.8 (Legacy Support)
 - **Java Version**: Java 8+ (Fully compatible with Java 8)
 - **Compatible Plugins**: 
-  - ✅ **Essentials** - For kits integration
+  - ✅ **PlayerKits2** - Recommended for creating kits with enchanted items (for NBT support)
   - ✅ **AutoSell** - Handles block selling (fortune-blocks disabled in this plugin)
-  - ✅ **PlayerKits2** - Recommended for creating kits with enchanted pickaxes
   - ✅ **Vault** - Economy integration
   - ✅ **PlaceholderAPI** - Placeholder support
   - ✅ **WorldGuard** - Region support
