@@ -115,7 +115,7 @@ public class Pickaxe implements CustomItem {
         if (meta == null) return;
 
         if (isCustomItem(item) && item.getType() == Material.DIAMOND_PICKAXE) {
-            // CREAR LORE DESDE CERO - no usar lore existente
+
             List<String> newLore = new ArrayList<>();
             
             List<String> baseLore = SystemTokenEnchant.getInstance().getConfig().getStringList("pickaxe.lore");
