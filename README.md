@@ -1,7 +1,9 @@
-# System Token Plugin (STP)
+# System Token Plugin (STP) - SPIGOT PLUGIN
 
-A **Minecraft Spigot 1.8.8 plugin** for a custom token-based economy and pickaxe enchantment system, designed for prison servers.  
+System Token Plugin (STP) is a **Minecraft Spigot 1.8.8 ** Spigot plugin for a custom token-based economy and pickaxe enchantment system, designed for prison servers.  
 This project is in an **early/incomplete stage** and under active development.
+
+For any questions or feedback, feel free to contact me on Discord: `@danielvflores` or [here](https://discord.com/users/835022014795874324)
 
 ---
 **⬇️ [Download Latest Release](https://github.com/danielvflores/system-token-plugin/releases/tag/minecraft-plugin)**
