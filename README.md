@@ -1,7 +1,40 @@
 # System Token Plugin (STP) - SPIGOT PLUGIN
 
-System Token Plugin (STP) is a **Minecraft Spigot 1.8.8 ** Spigot plugin for a custom token-based economy and pickaxe enchantment system, designed for prison servers.  
+System Token Plugin (STP) is a **Minecraft Spigot 1.8.8** plugin for a custom token-based economy and pickaxe enchantment system, designed for prison servers.  
+**Fully compatible with Java 8** and optimized for maximum compatibility with legacy servers.  
 This project is in an **early/incomplete stage** and under active development.
+
+## 🔧 Compatibility
+
+- **Minecraft Version**: Spigot 1.8.8 (Legacy Support)
+- **Java Version**: Java 8+ (Fully compatible with Java 8)
+- **Compatible Plugins**: 
+  - ✅ **Essentials** - For kits integration
+  - ✅ **AutoSell** - Handles block selling (fortune-blocks disabled in this plugin)
+  - ✅ **PlayerKits2** - Recommended for creating kits with enchanted pickaxes
+  - ✅ **Vault** - Economy integration
+  - ✅ **PlaceholderAPI** - Placeholder support
+  - ✅ **WorldGuard** - Region support
+
+**✅ Java 8 Compatible** - Fully optimized for Java 8 and Spigot 1.8.8  
+**🔗 Plugin Compatibility** - Compatible with AutoSell and PlayerKits2 (recommended for kit creation due to NBT support)  
+**⚙️ Robust Configuration** - All commands properly registered with permissions and tab-completion
+
+## 📦 Installation & Setup
+
+1. **Download** the latest `.jar` file from the releases section
+2. **Place** the plugin in your server's `plugins/` folder
+3. **Restart** your server to generate the config files
+4. **Configure** the `config.yml` file to your liking
+5. **Restart** again or use `/enchantsreload` to apply changes
+
+### Recommended Plugin Setup
+For the best experience, install these compatible plugins:
+- **Vault** (required for economy integration)
+- **PlaceholderAPI** (for placeholder support)
+- **AutoSell** (handles automatic block selling)
+- **PlayerKits2** (for creating kits with enchanted tools)
+- **WorldGuard** (for region support)
 
 For any questions or feedback, feel free to contact me on Discord: `@danielvflores` or [here](https://discord.com/users/835022014795874324)
 
@@ -21,6 +54,9 @@ For any questions or feedback, feel free to contact me on Discord: `@danielvflor
 
 - ⛏️ **Custom Pickaxe System**  
   Give players a special pickaxe with custom display name, lore, and persistent NBT data.
+  - **Clean Lore System**: Configuration-driven lore with no duplication
+  - **Automatic Lore Reconstruction**: Lore is always rebuilt from config and current enchants
+  - **NBT-Safe**: Compatible with kit plugins and item serialization
 
 - ✨ **Flexible Custom Enchantments**
   - Speed, Explosive, Efficiency, Fortune, Fly, Nuke, GiveToken, GiveMoney (all configurable)
@@ -48,6 +84,7 @@ For any questions or feedback, feel free to contact me on Discord: `@danielvflor
 - ⚙️ **Configurable**  
   - All enchantments, pickaxe display, allowed blocks, and database settings are configurable in `config.yml`.
   - Tab-completion para todos los comandos y subcomandos.
+  - **Robust Reload System**: `/enchantsreload` command for safe config and enchantment reloading
 
 - 💬 **Customizable Messages**  
   - All plugin messages (prefix, errors, notifications, etc.) are fully customizable in `config.yml` under the `messages:` section.
@@ -148,19 +185,36 @@ Copy the generated `.jar` from `target/` to your server's `plugins/` folder.
 
 ## 📝 Commands
 
-| Command              | Description                                 | Permission         |
-|----------------------|---------------------------------------------|--------------------|
-| `/token`             | Main command (see subcommands below)        | -                  |
-| `/token balance`     | Check your token balance                    | -                  |
-| `/token add <player> <amount>`    | Add tokens to a player           | `token.add`        |
-| `/token remove <player> <amount>` | Remove tokens from a player      | `token.remove`     |
-| `/token set <player> <amount>`    | Set a player's token balance     | `token.set`        |
-| `/token enchant <sub> <player> <enchant> <level>` | Manage enchantments (`set`, `nextlevel`, `downlevel`) | - |
-| `/givepickaxe`       | Give yourself the custom pickaxe            | -                  |
-| `/enchantsreload`    | Reload enchantments from config             | `stp.reload`       |
-| `/openenchantgui`    | Open the enchantments GUI                   | -                  |
+| Command              | Description                                 | Permission         | Aliases |
+|----------------------|---------------------------------------------|--------------------|---------| 
+| `/token`             | Check your token balance (default action)   | `stp.token.use`    | - |
+| `/token balance`     | Check your token balance                    | `stp.token.use`    | - |
+| `/token add <player> <amount>`    | Add tokens to a player           | `stp.token.add`        | - |
+| `/token remove <player> <amount>` | Remove tokens from a player      | `stp.token.remove`     | - |
+| `/token set <player> <amount>`    | Set a player's token balance     | `stp.token.set`        | - |
+| `/token enchant <sub> <player> <enchant> <level>` | Manage enchantments (`set`, `nextlevel`, `downlevel`) | `stp.token.enchant` | - |
+| `/givepickaxe`       | Give yourself the custom pickaxe            | `stp.givepickaxe`  | `gp`, `givep`, `pickaxe`, `kitpickaxe` |
+| `/enchantsreload`    | Reload enchantments and config              | `stp.reload`       | `ereload`, `enchantreload`, `stpreload` |
+| `/openenchantgui`    | Open the enchantments GUI                   | `stp.openenchantgui` | `egui`, `enchantgui`, `ogui`, `enchant` |
 
 **Tab-completion** is available for all commands and subcommands.
+
+---
+
+## 🔒 Permissions
+
+| Permission           | Description                                  | Default |
+|----------------------|----------------------------------------------|---------|
+| `stp.token.use`      | Allows using basic token commands           | ALL     |
+| `stp.token.add`      | Allows adding tokens to players             | OP      |
+| `stp.token.remove`   | Allows removing tokens from players         | OP      |
+| `stp.token.set`      | Allows setting player token balances        | OP      |
+| `stp.token.enchant`  | Allows managing player enchantments         | OP      |
+| `stp.givepickaxe`    | Allows giving pickaxes to yourself          | ALL     |
+| `stp.reload`         | Allows reloading plugin configuration       | OP      |
+| `stp.openenchantgui` | Allows opening the enchantments GUI         | ALL     |
+
+**Note**: Commands with ALL default permission can be used by any player, while OP commands require operator status.
 
 ---
 
@@ -176,103 +230,54 @@ pickaxe:
     - ""
     - "&a&lEncantamientos:"
     - "&2» {}"
-
+sword:
+  display-name: "&b&lESPADA &7&l| &a&lINICIAL"
+  lore:
+    - "&7{}"
 
 # MODELS PRICES:
 # - LINEAR: price = cost-per-level * level
 # - LOGARITHMIC: price = cost-per-level * log(level + 2)
-# - EXPONENTIAL: price = cost-per-level * (factor ^ level)   # default factor: 1.5
-# - PROGRESSIVE_ARITHMETIC: price = cost-per-level + (level - 1) * increment   # default increment: 500
-#
-# Only EXPONENTIAL uses 'factor'.
-# Only PROGRESSIVE_ARITHMETIC uses 'increment'.
-# IMPORTANT: If the model is LINEAR or LOGARITHMIC, the other parameters are ignored.
-# LINEAL IS THE DEFAULT MODEL, IF YOU WANT TO CHANGE IT, JUST CHANGE THE MODEL NAME BELOW.
+# - EXPONENTIAL: price = cost-per-level * (factor ^ level)
+# - PROGRESSIVE_ARITHMETIC: price = cost-per-level + (level - 1) * increment
 model: LINEAL
 
 # ENCHANTS PROPERTIES
 enchants:
-
-  # GENERAL
-
-  # POTS
+  # EFFECTS
   speed:
     display: "&7Speed"
     max-level: 2
     enabled: true
     cost-per-level: 50000
-    factor: 1.5 # EXPO
-    increment: 500 # P-A
+    factor: 1.5
+    increment: 500
     enchants-item-avaible:
       - "_PICKAXE"
       - "_SWORD"
     enchant-strict: false
   
-  strength:
-    display: "&7Strength"
-    max-level: 2
-    enabled: true
-    cost-per-level: 50000
-    factor: 1.5 # EXPO
-    increment: 500 # P-A
-    enchants-item-avaible:
-      - "_SWORD"
-      - "_AXE"
-    enchant-strict: false
-
-  # MINER
+  # MINING
   explosive:
     display: "&7Explosive"
     max-level: 50
     enabled: true
     chance: 70
     cost-per-level: 100000
-    factor: 1.5
-    increment: 500
     enchants-item-avaible:
       - "_PICKAXE"
     enchant-strict: true
+    
   efficiency:
     display: "&7Efficiency"
     max-level: 100
     enabled: true
     cost-per-level: 1000
-    factor: 1.5
-    increment: 500
     enchants-item-avaible:
       - "_PICKAXE"
     enchant-strict: true
-  fortune:
-    display: "&7Fortune"
-    max-level: 20
-    enabled: true
-    cost-per-level: 5000
-    factor: 1.5
-    increment: 500
-    enchants-item-avaible:
-      - "_PICKAXE"
-    enchant-strict: true
-  fly:
-    display: "&7Fly"
-    max-level: 1
-    enabled: true
-    cost-per-level: 1000000
-    factor: 1.5
-    increment: 500
-    enchants-item-avaible:
-      - "_PICKAXE"
-    enchant-strict: true
-  nuke:
-    display: "&7Nuke"
-    max-level: 1
-    enabled: true
-    chance: 0.1
-    cost-per-level: 1000000
-    factor: 1.5
-    increment: 500
-    enchants-item-avaible:
-      - "_PICKAXE"
-    enchant-strict: true
+    
+  # ECONOMY
   givetoken:
     display: "&7Recolector de tokens"
     max-level: 20
@@ -280,33 +285,33 @@ enchants:
     messageStatus: true
     enabled: true
     cost-per-level: 10000
-    factor: 1.5
-    increment: 500
-    enchants-item-avaible:
-      - "_PICKAXE"
-    enchant-strict: true
-  givemoney:
-    display: "&7Recolector de dinero"
-    max-level: 50
-    price-for-level: 30
-    messageStatus: true
-    enabled: true
-    cost-per-level: 10000
-    factor: 1.5
-    increment: 500
     enchants-item-avaible:
       - "_PICKAXE"
     enchant-strict: true
 
-  # PVP
-
-
-# ALLOWEDS
+# ALLOWED BLOCKS
 allowed-blocks:
   - STONE
   - COBBLESTONE
   - IRON_ORE
   - GOLD_ORE
+  - DIAMOND_ORE
+  - EMERALD_ORE
+  - COAL_ORE
+  - LAPIS_ORE
+
+# DATABASE SETTINGS
+database:
+  filename: "tokens.db"
+  tokens-table: "player_tokens"
+  pickaxes-table: "player_pickaxes"
+
+# GUI SETTINGS  
+gui:
+  title: "&8Enchantments GUI"
+  size: 54
+  # ... (additional GUI configuration)
+```
   - DIAMOND_ORE
   - DIAMOND_BLOCK
   - EMERALD_BLOCK
@@ -485,6 +490,30 @@ enchant-gui:
 locked-menus:
   - "enchant menu"
 ```
+
+---
+
+## 🚀 Recent Improvements
+
+### **v1.0.2 - Compatibility & Stability Update**
+
+- **✅ Java 8 Full Compatibility**: Removed all Java 8+ features (lambdas, streams) for maximum compatibility
+- **🔧 Clean Lore System**: Completely refactored pickaxe lore handling to eliminate duplication
+  - Lore is always reconstructed from config templates and current enchants
+  - No more appending or cleaning old lore
+  - NBT-safe for kit plugins and item serialization
+- **⚙️ Robust Reload System**: Improved `/enchantsreload` command with proper error handling
+- **🔗 Plugin Compatibility**: 
+  - Fully compatible with AutoSell (fortune-blocks disabled)
+  - Compatible with PlayerKits2 for creating kits with enchanted tools
+  - Works seamlessly with Essentials, Vault, PlaceholderAPI, and WorldGuard
+- **📋 Command Improvements**: `/token` now shows balance by default when used without arguments
+- **📝 Documentation**: Updated README with all compatibility information and correct config examples
+
+### **Legacy Server Optimization**
+- Designed specifically for **Spigot 1.8.8** and **Java 8**
+- No modern Java features that could cause compatibility issues
+- Extensive testing on legacy server environments
 
 ---
 
