@@ -23,7 +23,7 @@ public class TokenAdd implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (!sender.hasPermission("token.add")) {
+        if (!sender.hasPermission("stp.token.add")) {
             sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
             return true;
         }

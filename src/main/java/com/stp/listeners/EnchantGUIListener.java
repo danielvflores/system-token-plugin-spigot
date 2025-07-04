@@ -35,27 +35,20 @@ public class EnchantGUIListener implements Listener {
         event.setCancelled(true);
         int slot = event.getRawSlot();
 
-        // Detectar página actual por el lore del botón o por un sistema propio (aquí ejemplo simple)
         int page = 0;
-        // Si quieres guardar la página en el nombre del inventario, puedes hacerlo así:
-        // String title = inv.getTitle();
-        // if (title.contains("Página ")) page = Integer.parseInt(title.split("Página ")[1]) - 1;
 
-        // Obtener lista de encantamientos compatibles para la página actual
         List<String> compatibleEnchants = getCompatibleEnchants(player);
 
-        // Botón siguiente página
         if (slot == 53 && (page + 1) * ENCHANT_SLOTS.length < compatibleEnchants.size()) {
             player.openInventory(EnchantGUI.createEnchantGUI(player, page + 1));
             return;
         }
-        // Botón página anterior
+
         if (slot == 45 && page > 0) {
             player.openInventory(EnchantGUI.createEnchantGUI(player, page - 1));
             return;
         }
 
-        // Click en un slot de encantamiento
         int enchantsPerPage = ENCHANT_SLOTS.length;
         int start = page * enchantsPerPage;
         int end = Math.min(start + enchantsPerPage, compatibleEnchants.size());
@@ -107,15 +100,17 @@ public class EnchantGUIListener implements Listener {
                         .replace("%level%", String.valueOf(currentLevel + 1));
                 player.sendMessage(msg);
 
-                Bukkit.getScheduler().runTaskLater(SystemTokenEnchant.getInstance(), () -> {
-                    player.openInventory(EnchantGUI.createEnchantGUI(player, page));
+                Bukkit.getScheduler().runTaskLater(SystemTokenEnchant.getInstance(), new Runnable() {
+                    @Override
+                    public void run() {
+                        player.openInventory(EnchantGUI.createEnchantGUI(player, page));
+                    }
                 }, 2L);
                 return;
             }
         }
     }
 
-    // Devuelve la lista de encantamientos compatibles para el ítem en mano del jugador
     private List<String> getCompatibleEnchants(Player player) {
         List<String> compatibleEnchants = new ArrayList<>();
         ConfigurationSection itemsSection = SystemTokenEnchant.getInstance().getConfig().getConfigurationSection("enchant-gui.items");
@@ -130,7 +125,13 @@ public class EnchantGUIListener implements Listener {
                             .getBoolean("enchants." + key + ".enchant-strict", false);
 
                     String typeName = hand != null ? hand.getType().name() : "";
-                    boolean typeAllowed = allowedTypes.stream().anyMatch(typeName::endsWith);
+                    boolean typeAllowed = false;
+                    for (String allowedType : allowedTypes) {
+                        if (typeName.endsWith(allowedType)) {
+                            typeAllowed = true;
+                            break;
+                        }
+                    }
 
                     boolean show = false;
                     if (typeAllowed) {

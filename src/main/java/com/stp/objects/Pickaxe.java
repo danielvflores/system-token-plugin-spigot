@@ -114,17 +114,9 @@ public class Pickaxe implements CustomItem {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
 
-        // Solo para picos personalizados - Usa config pero añade al lore existente
         if (isCustomItem(item) && item.getType() == Material.DIAMOND_PICKAXE) {
-            List<String> currentLore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
-            
-            // Elimina líneas antiguas del template de pickaxe (busca patrones del config)
-            currentLore.removeIf(line -> line != null && (
-                line.contains("Dueño:") || 
-                line.contains("Encantamientos:") || 
-                line.startsWith("§2» ") ||
-                line.startsWith("&2» ")
-            ));
+            // CREAR LORE DESDE CERO - no usar lore existente
+            List<String> newLore = new ArrayList<>();
             
             List<String> baseLore = SystemTokenEnchant.getInstance().getConfig().getStringList("pickaxe.lore");
             List<String> enchantLore = new ArrayList<>();
@@ -139,39 +131,28 @@ public class Pickaxe implements CustomItem {
                 }
             }
 
-            // Añade el template del config al lore existente
             for (String line : baseLore) {
                 if (line.contains("{}")) {
-                    if (enchantLore.isEmpty()) continue;
                     for (String enchantLine : enchantLore) {
                         String processed = line.replace("{}", enchantLine);
-                        currentLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
+                        newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
                     }
                 } else {
                     String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
-                    // Solo añade líneas que no estén vacías después del procesamiento
                     if (processed != null && !processed.trim().isEmpty()) {
-                        currentLore.add(color(processed));
+                        newLore.add(color(processed));
                     }
                 }
             }
 
-            meta.setLore(currentLore);
+            meta.setLore(newLore);
             item.setItemMeta(meta);
             return;
         }
 
-        // Si es espada personalizada - Usa config pero añade al lore existente
         if (item.getType() == Material.DIAMOND_SWORD) {
-            List<String> currentLore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
-            
-            // Elimina líneas antiguas del template de sword
-            currentLore.removeIf(line -> line != null && (
-                line.startsWith("§7") && line.contains("Speed") || 
-                line.startsWith("§7") && line.contains("Strength") ||
-                line.startsWith("&7") && line.contains("Speed") || 
-                line.startsWith("&7") && line.contains("Strength")
-            ));
+
+            List<String> newLore = new ArrayList<>();
             
             List<String> baseLore = SystemTokenEnchant.getInstance().getConfig().getStringList("sword.lore");
             List<String> enchantLore = new ArrayList<>();
@@ -184,32 +165,34 @@ public class Pickaxe implements CustomItem {
                 }
             }
 
-            // Añade el template del config al lore existente
             for (String line : baseLore) {
                 if (line.contains("{}")) {
-                    if (enchantLore.isEmpty()) continue;
                     for (String enchantLine : enchantLore) {
                         String processed = line.replace("{}", enchantLine);
-                        currentLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
+                        newLore.add(color(PlaceholderUtil.applyPlaceholders(player, processed, new HashMap<>())));
                     }
                 } else {
                     String processed = PlaceholderUtil.applyPlaceholders(player, line, new HashMap<>());
-                    // Solo añade líneas que no estén vacías después del procesamiento
                     if (processed != null && !processed.trim().isEmpty()) {
-                        currentLore.add(color(processed));
+                        newLore.add(color(processed));
                     }
                 }
             }
 
-            meta.setLore(currentLore);
+            meta.setLore(newLore);
             item.setItemMeta(meta);
             return;
         }
 
-        // Para otros ítems: limpia el lore de duplicados antes de agregar el custom
         List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
-        // Elimina líneas antiguas de custom enchants
-        lore.removeIf(line -> line != null && (line.startsWith("§aCustom Enchants:") || line.startsWith("§a» ")));
+
+        List<String> toRemove = new ArrayList<>();
+        for (String line : lore) {
+            if (line != null && (line.startsWith("§aCustom Enchants:") || line.startsWith("§a» "))) {
+                toRemove.add(line);
+            }
+        }
+        lore.removeAll(toRemove);
 
         List<String> customLore = new ArrayList<>();
         for (String enchantId : SystemTokenEnchant.getInstance().getEnchantmentManager().getRegisteredEnchants()) {

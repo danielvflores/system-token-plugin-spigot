@@ -24,7 +24,7 @@ public class TokenSet implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
 
-        if (!sender.hasPermission("token.set")) {
+        if (!sender.hasPermission("stp.token.set")) {
             sender.sendMessage(MessageUtils.getMessage("general.no-permission"));
             return true;
         }
