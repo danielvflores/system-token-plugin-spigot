@@ -27,7 +27,12 @@ public class Nuke implements CustomEnchant {
     private final int maxLevel;
     private final boolean enabled;
 
-    public static ThreadLocal<Boolean> isNuking = ThreadLocal.withInitial(() -> false);
+    public static ThreadLocal<Boolean> isNuking = new ThreadLocal<Boolean>() {
+        @Override
+        protected Boolean initialValue() {
+            return false;
+        }
+    };
 
     public Nuke(int level) {
         this.level = level;
@@ -76,7 +81,13 @@ public class Nuke implements CustomEnchant {
 
         String typeName = item.getType().name();
 
-        boolean typeAllowed = allowedTypes.stream().anyMatch(typeName::endsWith);
+        boolean typeAllowed = false;
+        for (String allowedType : allowedTypes) {
+            if (typeName.endsWith(allowedType)) {
+                typeAllowed = true;
+                break;
+            }
+        }
         if (!typeAllowed) return false;
 
         if (strict) {

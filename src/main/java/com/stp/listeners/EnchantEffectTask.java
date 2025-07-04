@@ -32,18 +32,28 @@ public class EnchantEffectTask extends BukkitRunnable {
 
                 int level = pickaxe.getCustomEnchantmentLevel(item, enchantId);
                 if (level > 0) {
-                    CustomEnchant enchant = activeEnchantments
-                        .computeIfAbsent(player.getUniqueId(), k -> new HashMap<String, CustomEnchant>())
-                        .computeIfAbsent(enchantId, k -> 
-                            SystemTokenEnchant.getInstance()
+                    if (!activeEnchantments.containsKey(player.getUniqueId())) {
+                        activeEnchantments.put(player.getUniqueId(), new HashMap<String, CustomEnchant>());
+                    }
+                    Map<String, CustomEnchant> playerEnchants = activeEnchantments.get(player.getUniqueId());
+                    
+                    CustomEnchant enchant;
+                    if (!playerEnchants.containsKey(enchantId)) {
+                        enchant = SystemTokenEnchant.getInstance()
                                 .getEnchantmentManager()
-                                .createEnchantment(enchantId, level));
+                                .createEnchantment(enchantId, level);
+                        playerEnchants.put(enchantId, enchant);
+                    } else {
+                        enchant = playerEnchants.get(enchantId);
+                    }
 
                     enchant.applyEffect(player, level);
                 } else {
-                    CustomEnchant oldEnchant = activeEnchantments
-                        .getOrDefault(player.getUniqueId(), new HashMap<String, CustomEnchant>())
-                        .get(enchantId);
+                    Map<String, CustomEnchant> playerEnchants = activeEnchantments.get(player.getUniqueId());
+                    if (playerEnchants == null) {
+                        playerEnchants = new HashMap<String, CustomEnchant>();
+                    }
+                    CustomEnchant oldEnchant = playerEnchants.get(enchantId);
 
                     if (oldEnchant != null) {
                         oldEnchant.onDisable(player);
@@ -57,7 +67,9 @@ public class EnchantEffectTask extends BukkitRunnable {
     private void clearAllEffects(Player player) {
         Map<String, CustomEnchant> enchants = activeEnchantments.get(player.getUniqueId());
         if (enchants != null) {
-            enchants.values().forEach(enchant -> enchant.onDisable(player));
+            for (CustomEnchant enchant : enchants.values()) {
+                enchant.onDisable(player);
+            }
             activeEnchantments.remove(player.getUniqueId());
         }
     }

@@ -12,5 +12,4 @@ public interface CustomItem {
     ItemStack removeCustomEnchantment(ItemStack item, String enchantId, Player player);
     void refreshLore(ItemStack item, Player player);
 
-    //TESTPUSH
 }

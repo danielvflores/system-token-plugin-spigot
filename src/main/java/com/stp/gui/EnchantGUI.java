@@ -37,7 +37,6 @@ public class EnchantGUI {
         ConfigurationSection itemsSection = guiSection.getConfigurationSection("items");
         ItemStack hand = player.getInventory().getItemInHand();
 
-        // 1. Filtrar los encantamientos compatibles
         List<String> compatibleEnchants = new ArrayList<>();
         if (itemsSection != null) {
             for (String key : itemsSection.getKeys(false)) {
@@ -48,7 +47,13 @@ public class EnchantGUI {
                         .getBoolean("enchants." + key + ".enchant-strict", false);
 
                     String typeName = hand != null ? hand.getType().name() : "";
-                    boolean typeAllowed = allowedTypes.stream().anyMatch(typeName::endsWith);
+                    boolean typeAllowed = false;
+                    for (String allowedType : allowedTypes) {
+                        if (typeName.endsWith(allowedType)) {
+                            typeAllowed = true;
+                            break;
+                        }
+                    }
 
                     boolean show = false;
                     if (typeAllowed) {
@@ -68,7 +73,6 @@ public class EnchantGUI {
             }
         }
 
-        // 2. Paginación
         int enchantsPerPage = ENCHANT_SLOTS.length;
         int start = page * enchantsPerPage;
         int end = Math.min(start + enchantsPerPage, compatibleEnchants.size());
@@ -117,22 +121,20 @@ public class EnchantGUI {
             inv.setItem(ENCHANT_SLOTS[i - start], item);
         }
 
-        // Botón de siguiente página si hay más
         if (end < compatibleEnchants.size()) {
             ItemStack nextPage = new ItemStack(Material.ARROW);
             ItemMeta meta = nextPage.getItemMeta();
             meta.setDisplayName("§eSiguiente página");
             nextPage.setItemMeta(meta);
-            inv.setItem(53, nextPage); // Slot 53: esquina inferior derecha
+            inv.setItem(53, nextPage);
         }
 
-        // Botón de página anterior si no es la primera
         if (page > 0) {
             ItemStack prevPage = new ItemStack(Material.ARROW);
             ItemMeta meta = prevPage.getItemMeta();
             meta.setDisplayName("§ePágina anterior");
             prevPage.setItemMeta(meta);
-            inv.setItem(45, prevPage); // Slot 45: esquina inferior izquierda
+            inv.setItem(45, prevPage);
         }
 
         return inv;
