@@ -7,6 +7,18 @@ pickaxe:
     - ""
     - "&a&lEncantamientos:"
     - "&2» {}"
+  give-command-enchants:
+    # Enchantments that will be automatically applied when using /givepickaxe
+    # Format: "enchantment-id: level"
+    # If empty or commented, the normal pickaxe will be given without enchantments
+    # Available enchantments: efficiency, fortune, explosive, nuke, givetoken, givemoney, fly, speed
+    efficiency: 10
+    # fortune: 5
+    # explosive: 3
+    # Example for multiple enchantments:
+    # efficiency: 10
+    # fortune: 5
+    # explosive: 3
 sword:
   display-name: "&b&lESPADA &7&l| &a&lINICIAL"
   lore:
