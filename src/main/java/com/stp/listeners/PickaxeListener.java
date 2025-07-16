@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -29,6 +30,7 @@ import com.stp.enchants.impl.Explosive;
 import com.stp.enchants.impl.GiveMoney;
 import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
+import com.stp.enchants.impl.Vampire;
 import com.stp.objects.Pickaxe;
 import com.stp.utils.MessageUtils;
 
@@ -161,5 +163,54 @@ public class PickaxeListener implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
+        // Solo procesar si el atacante es un jugador
+        if (!(event.getDamager() instanceof Player)) return;
+
+        Player attacker = (Player) event.getDamager();
+        ItemStack weapon = attacker.getItemInHand();
+
+        // Verificar que el arma sea un item personalizado
+        if (!pickaxe.isCustomItem(weapon)) return;
+
+        // Verificar si tiene el encantamiento vampire
+        int vampireLevel = pickaxe.getCustomEnchantmentLevel(weapon, "vampire");
+        if (vampireLevel <= 0) return;
+
+        // Crear instancia del encantamiento vampire
+        CustomEnchant vampireEnchant = SystemTokenEnchant.getInstance()
+                .getEnchantmentManager().createEnchantment("vampire", vampireLevel);
+        if (vampireEnchant == null || !(vampireEnchant instanceof Vampire)) return;
+
+        // Obtener configuración del vampirismo
+        double extraDamagePerLevel = SystemTokenEnchant.getInstance().getConfig()
+                .getDouble("enchants.vampire.extra-damage-per-level", 2.0);
+        double healPercentage = SystemTokenEnchant.getInstance().getConfig()
+                .getDouble("enchants.vampire.heal-percentage", 50.0);
+
+        // Calcular daño extra y curación
+        double extraDamage = extraDamagePerLevel * vampireLevel;
+        double healAmount = (extraDamage * healPercentage) / 100.0;
+
+        // Aplicar daño extra
+        event.setDamage(event.getDamage() + extraDamage);
+
+        // Curar al atacante
+        double currentHealth = attacker.getHealth();
+        double maxHealth = attacker.getMaxHealth();
+        double newHealth = Math.min(currentHealth + healAmount, maxHealth);
+        
+        attacker.setHealth(newHealth);
+
+        // Enviar mensaje al atacante
+        String prefix = SystemTokenEnchant.getInstance().getConfig().getString("message-prefix", "");
+        String message = SystemTokenEnchant.getInstance().getConfig()
+                .getString("messages.vampire.healed", "¡Vampirismo activado! Has curado &e%health% &7de salud.")
+                .replace("%health%", String.format("%.1f", healAmount));
+        
+        attacker.sendMessage(org.bukkit.ChatColor.translateAlternateColorCodes('&', prefix + message));
     }
 }

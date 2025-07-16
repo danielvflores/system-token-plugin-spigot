@@ -7,6 +7,18 @@ pickaxe:
     - ""
     - "&a&lEncantamientos:"
     - "&2» {}"
+  give-command-enchants:
+    # Enchantments that will be automatically applied when using /givepickaxe
+    # Format: "enchantment-id: level"
+    # If empty or commented, the normal pickaxe will be given without enchantments
+    # Available enchantments: efficiency, fortune, explosive, nuke, givetoken, givemoney, fly, speed
+    efficiency: 10
+    # fortune: 5
+    # explosive: 3
+    # Example for multiple enchantments:
+    # efficiency: 10
+    # fortune: 5
+    # explosive: 3
 sword:
   display-name: "&b&lESPADA &7&l| &a&lINICIAL"
   lore:
@@ -51,6 +63,19 @@ enchants:
     enchants-item-avaible:
       - "_SWORD"
       - "_AXE"
+    enchant-strict: false
+
+  vampire:
+    display: "&7Vampire"
+    max-level: 3
+    enabled: true
+    cost-per-level: 75000
+    factor: 1.5 # EXPO
+    increment: 750 # P-A
+    extra-damage-per-level: 2.0  # Daño extra por nivel
+    heal-percentage: 50.0        # Porcentaje del daño extra que se cura (50% = mitad del daño extra)
+    enchants-item-avaible:
+      - "_SWORD"
     enchant-strict: false
 
   # MINER
@@ -168,6 +193,9 @@ messages:
 
   explosive:
     activated: "¡Explosión activada!"
+
+  vampire:
+    healed: "¡Vampirismo activado! Has curado &e%health% &7de salud."
 
   give-token:
     received: "Has recibido &e%tokens% &7tokens por romper un bloque con &e%enchant%&7."
@@ -319,6 +347,15 @@ enchant-gui:
         - "&7"
         - "&f• &7Niveles: &f%enchant_strength_current_level% / %enchant_strength_max_level%"
         - "&f• &7Costo por nivel: &f%enchant_strength_cost_per_level% tokens"
+    vampire:
+      slot: 18
+      material: ENCHANTED_BOOK
+      name: "&f%enchant_vampire_name%"
+      lore:
+        - "&7Este encantamiento drena vida de los enemigos y cura al portador con cada golpe."
+        - "&7"
+        - "&f• &7Niveles: &f%enchant_vampire_current_level% / %enchant_vampire_max_level%"
+        - "&f• &7Costo por nivel: &f%enchant_vampire_cost_per_level% tokens"
 
 
 locked-menus:

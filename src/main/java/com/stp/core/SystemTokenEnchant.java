@@ -24,6 +24,7 @@ import com.stp.enchants.impl.GiveToken;
 import com.stp.enchants.impl.Nuke;
 import com.stp.enchants.impl.Speed;
 import com.stp.enchants.impl.Strength;
+import com.stp.enchants.impl.Vampire;
 import com.stp.listeners.EnchantEffectTask;
 import com.stp.listeners.EnchantGUIListener;
 import com.stp.listeners.PickaxeListener;
@@ -55,7 +56,8 @@ public class SystemTokenEnchant extends JavaPlugin {
             Nuke.class,
             GiveToken.class,
             GiveMoney.class,
-            Strength.class
+            Strength.class,
+            Vampire.class
         };
 
         for (Class<? extends CustomEnchant> enchantClass : enchantClasses) {
