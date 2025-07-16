@@ -20,12 +20,13 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot 1.8.8 -->
+        <!-- Spigot 1.8.8 (local jar, built with BuildTools) -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/spigot.jar</systemPath>
         </dependency>
 
         <!-- SQLite JDBC -->
